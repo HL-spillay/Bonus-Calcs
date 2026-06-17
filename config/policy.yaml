@@ -1,0 +1,241 @@
+# Bonus engine policy — extracted from Managers criteria & Store Staff Criteria
+# (Audit xlsx, cycle 2026-05). See docs/bonus-model-logic.md.
+
+attendance:
+  gate_pct: 0.80          # primary-job days ≥ 80% to earn anything
+  employee_count_gate_pct: 0.80  # Employees info headcount filter
+
+payout_floors:
+  per_person_minimum: 50  # store & manager incentive floor (Rand)
+
+cluster_manager:
+  share: 0.30             # 30% of manager bonus % per managed store
+
+store_bonus:
+  pool_pct: 0.10          # 10% of sales above target
+  weighting:
+    default:              # RSA, Zam, Nam, Swaz, Les (Store Staff Criteria B4-B6)
+      guaranteed: 0.0
+      oil_shrink: 0.0
+      shrink_ex_oil: 1.0
+    angola:               # Store Staff Criteria C4-C6
+      guaranteed: 0.70
+      oil_shrink: 0.0
+      shrink_ex_oil: 0.30
+  angola_qualification: sales_target_only  # else: sales_target AND shrink_ex_oil PASS
+
+oil_shrink_thresholds:    # Store Staff Criteria rows 17-22 (strictly greater than)
+  EXTRA-LARGE: 0.0065
+  LARGE: -0.0835
+  MEDIUM: -0.196
+  MEDIUM-LARGE: -0.1514
+  MEDIUM-SMALL: -0.2175
+  SMALL: -0.3677
+
+shrink_ex_oil_limits:     # Store Staff Criteria rows 29-36 (variance % of sales, between limits)
+  South Africa: { upper: 0.06, lower: 0.0 }
+  Lesotho: { upper: 0.06, lower: 0.0 }
+  Eswatini: { upper: 0.06, lower: 0.0 }
+  Zambia: { upper: 0.06, lower: 0.0 }
+  Namibia: { upper: 0.06, lower: 0.0 }
+  Angola: { upper: 0.0075, lower: -0.0075 }
+  Mauritius: { upper: 0.06, lower: 0.0 }
+  Zimbabwe: { upper: 0.06, lower: 0.0 }
+
+oil_quality:
+  tpm_max_pct: 0.05       # ≤ 5% TPM readings over 25
+  checklist_min: 0.895    # Co-Pilot checklist ≥ 89.5%
+  stock_take_min: 0.895   # stock-take ≥ 89.5%
+  sub_check_weight: 0.03  # each sub-check worth 3%
+  all_pass_weight: 0.10   # all three → 10%
+
+delivery:
+  online_rate_min: 0.90
+  availability_min: 0.985
+  acceptance_max: 1.0
+  cancellations_max: 0.001
+
+virtual_assistant:
+  thaw_plan_min: 0.85
+  drop_plan_min: 0.85
+  avg_response_max: 2.0
+  excluded_countries: [Angola, Eswatini, Mauritius, Zimbabwe]
+
+banking:
+  rsa_zim_mau_angola_pass_value: Compliant
+  zambia_pass_value: Incentive Payout
+
+drop_validation:
+  score_threshold: 0.745  # valid drop score < 0.745 → 100% impact (penalty)
+
+kpi_exclusions:
+  labour_excluded_countries: [Angola]
+  oil_quality_excluded_countries: [Angola]
+  virtual_assistant_excluded_countries: [Angola, Eswatini, Mauritius, Zimbabwe]
+  overrider_excluded_countries: [Angola]
+  manager_overrider_zero_countries: [Zimbabwe, Mauritius]
+
+eligibility:
+  exclude_status: [Closed, BOTSWANA FRANCHISE]
+  lesotho_maps_to: South Africa
+  entry_types: [Store, Manager]
+
+manager_kpi_weights:
+  # Managers criteria D-column blocks; weights sum to 1.0 per block
+  rsa_delivery:
+    country: South Africa
+    store_type: delivery
+    kpis:
+      sales: 0.10
+      oil_shrink: 0.0
+      oil_quality: 0.10
+      shrink_ex_oil: 0.10
+      labour: 0.25
+      delivery: 0.10
+      copilot: 0.25
+      banking: 0.10
+  rsa_non_delivery:
+    country: South Africa
+    store_type: non_delivery
+    kpis:
+      sales: 0.20
+      oil_shrink: 0.0
+      oil_quality: 0.10
+      shrink_ex_oil: 0.10
+      labour: 0.25
+      copilot: 0.25
+      banking: 0.10
+  namibia:
+    country: Namibia
+    kpis:
+      sales: 0.20
+      oil_shrink: 0.0
+      oil_quality: 0.10
+      shrink_ex_oil: 0.10
+      labour: 0.25
+      copilot: 0.25
+      banking: 0.10
+  zambia_non_delivery:
+    country: Zambia
+    store_type: non_delivery
+    kpis:
+      sales: 0.20
+      oil_shrink: 0.0
+      oil_quality: 0.10
+      shrink_ex_oil: 0.10
+      labour: 0.25
+      copilot: 0.25
+      banking: 0.10
+  zambia_delivery:
+    country: Zambia
+    store_type: delivery
+    kpis:
+      sales: 0.10
+      oil_shrink: 0.0
+      oil_quality: 0.10
+      shrink_ex_oil: 0.10
+      labour: 0.25
+      delivery: 0.10
+      copilot: 0.25
+      banking: 0.10
+  eswatini:
+    country: Eswatini
+    kpis:
+      sales: 0.40
+      oil_shrink: 0.0
+      oil_quality: 0.10
+      shrink_ex_oil: 0.15
+      labour: 0.25
+      banking: 0.10
+  angola_hl:
+    country: Angola
+    brand: HUNGRY LION
+    kpis:
+      sales: 0.50
+      oil_shrink: 0.05
+      shrink_ex_oil: 0.40
+      banking: 0.05
+  angola_deb_vida:
+    country: Angola
+    brand: DEB_VIDA
+    kpis:
+      sales: 0.55
+      shrink_ex_oil: 0.40
+      banking: 0.05
+  mauritius:
+    country: Mauritius
+    kpis:
+      sales: 0.20
+      oil_shrink: 0.0
+      oil_quality: 0.10
+      shrink_ex_oil: 0.10
+      labour: 0.25
+      copilot: 0.25
+      banking: 0.10
+  zimbabwe:
+    country: Zimbabwe
+    kpis:
+      sales: 0.20
+      oil_shrink: 0.0
+      oil_quality: 0.10
+      shrink_ex_oil: 0.10
+      labour: 0.25
+      copilot: 0.25
+      banking: 0.10
+
+monthly_bonus_potential:  # Managers criteria rows 103-130 (annual ÷ 12, local currency)
+  Branch Manager:
+    South Africa: 2083.333333
+    Angola: 42253.91667
+    Lesotho: 2083.333333
+    Namibia: 1916.666667
+    Eswatini: 2083.333333
+    Zambia: 1208.333333
+    Zimbabwe: 140.0
+    Mauritius: 8312.5
+  Assistant Manager:
+    South Africa: 1666.666667
+    Angola: 28405.91667
+    Lesotho: 1666.666667
+    Namibia: 1500.0
+    Eswatini: 1500.0
+    Zambia: 1083.333333
+    Zimbabwe: 81.9
+    Mauritius: 4927.0
+  Junior Manager:
+    South Africa: 500.0
+    Angola: 10501.58333
+    Lesotho: 500.0
+    Namibia: 500.0
+    Eswatini: 500.0
+    Zambia: 500.0
+    Zimbabwe: 45.0
+    Mauritius: 2700.0
+
+overrider_tiers:          # Managers criteria rows 133-137 (Over/Under % sales target)
+  - min_pct: 1.00
+    max_pct: 1.05
+    payout: 250.0
+  - min_pct: 1.05
+    max_pct: 1.10
+    payout: 500.0
+  - min_pct: 1.10
+    max_pct: 1.15
+    payout: 750.0
+  - min_pct: 1.15
+    max_pct: 1.20
+    payout: 1000.0
+  - min_pct: 1.20
+    max_pct: null       # open-ended (sheet uses C137=10 as upper sentinel)
+    payout: 1250.0
+
+sales_target:
+  pass_rule: actual_gte_target  # Sales KPI PASS when actual ≥ target
+
+termination:
+  zero_payout_reasons: [Misconduct, Discharged, Absconded]
+  manager_bonus_zero_status: [Absconded, Discharged]
+
+job_roles:
+  manager_jobs: [Branch Manager, Assistant Manager, Junior Manager, Cluster Manager]
+  no_manager_bonus_jobs: [Star, Brand]  # blank manager bonus in Calculations

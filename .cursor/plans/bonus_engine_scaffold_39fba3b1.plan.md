@@ -4,46 +4,46 @@ overview: Scaffold the Python bonus calculation engine with pre-filled config, m
 todos:
   - id: deps
     content: Install pandas + pyyaml into .venv and write requirements.txt
-    status: pending
+    status: completed
   - id: config-policy
     content: Write config/policy.yaml with all extracted parameters (KPI weights, bonus tables, overrider tiers, thresholds, floors, cluster share)
-    status: pending
+    status: completed
   - id: config-cycle
     content: Write config/cycle.yaml (cycle month, FX rates, date cutoffs)
-    status: pending
+    status: completed
   - id: loader
     content: Write bonus_engine/loader.py to read .xlsx sheets into named DataFrames
-    status: pending
+    status: completed
   - id: eligibility
     content: Write bonus_engine/eligibility.py (Qualifying Stores logic)
-    status: pending
+    status: completed
   - id: kpis
     content: Write bonus_engine/kpis.py (all 10 KPI gates → PASS/FAIL per store)
-    status: pending
+    status: completed
   - id: manager-bonus
     content: Write bonus_engine/manager_bonus.py (payout %, overrider tiers, cluster share)
-    status: pending
+    status: completed
   - id: store-bonus
     content: Write bonus_engine/store_bonus.py (10% pool, shrink gate, per-person split, floor=50)
-    status: pending
+    status: completed
   - id: consolidate
     content: Write bonus_engine/consolidate.py (per-employee proration by attendance, penalties)
-    status: pending
+    status: completed
   - id: payout
     content: Write bonus_engine/payout.py (80% attendance gate, timecard/AWOL loss, termination rules)
-    status: pending
+    status: completed
   - id: report
     content: Write bonus_engine/report.py (write PAYOUT PER PERSON to Excel/CSV)
-    status: pending
+    status: completed
   - id: run
     content: Write run.py CLI entry point
-    status: pending
+    status: completed
   - id: tests
     content: Write tests/test_regression.py (diff engine vs PAYOUT PER PERSON tab)
-    status: pending
+    status: completed
   - id: gitignore
     content: Update .gitignore (inputs/, __pycache__, *.xlsx data)
-    status: pending
+    status: completed
 isProject: false
 ---
 

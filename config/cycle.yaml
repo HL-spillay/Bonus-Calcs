@@ -1,0 +1,44 @@
+# Per-cycle inputs — extracted from Audit xlsx (2026-05 run)
+
+cycle:
+  year: 2026
+  month: 5
+  label: "2026-05"
+  bonus_month_start: "2026-05-01"
+  last_day_of_month: "2026-05-31"
+  days_in_month: 31
+
+date_cutoffs:
+  # Qualifying Stores W2 / W3 (EOMONTH relative to cycle month)
+  manager_valid_through: "2026-04-30"   # EOMONTH(cycle, -1) — Manager Valid Date (S)
+  store_valid_through: "2026-03-31"     # EOMONTH(cycle, -2) — Store Valid Date (R)
+
+exchange_rates:
+  # Exchange info tab — ZAR per 1 unit local currency (as of last day of month)
+  ANGOLA: 56.46318732
+  Lesotho: 1.0
+  NAMIBIA: 1.0
+  SOUTH AFRICA: 1.0
+  ESWATINI: 1.0
+  ZAMBIA: 1.130678
+  MAURITIUS: 2.4602696
+  ZIMBABWE: 0.0615475
+
+# Country name normalisation (sheet → policy keys)
+country_aliases:
+  SOUTH AFRICA: South Africa
+  NAMIBIA: Namibia
+  ZAMBIA: Zambia
+  ESWATINI: Eswatini
+  SWAZILAND: Eswatini
+  ANGOLA: Angola
+  MAURITIUS: Mauritius
+  ZIMBABWE: Zimbabwe
+  LESOTHO: South Africa
+
+exception_lists:
+  qualifying_stores: []   # Qualifying Stores col Z — populate per cycle if needed
+  blocked_drains: []      # Blocked Drains Impact manual list
+
+input_files:
+  audit_xlsx: "Formula extraction 2026-05 sales targets for communication_Audit.xlsx"
