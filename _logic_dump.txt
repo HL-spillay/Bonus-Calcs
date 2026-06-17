@@ -1,0 +1,884 @@
+==========================================================================================
+SHEET: PAYOUT PER PERSON   (formula tab: Formulas - PAYOUT PER PERSON)
+==========================================================================================
+    A | hdr=Country                          | sample=NAMIBIA                  | F[r2]==index(Calculations!N:N,match(C2,Calculations!A:A,0),1)
+    B | hdr=Primary Job                      | sample=Full Time All Star       | F[r2]==index(Calculations!D:D,match(C2,Calculations!A:A,0),1)
+    C | hdr=                                 | sample=                        
+    D | hdr=                                 | sample=                        
+    E | hdr=                                 | sample=                        
+    F | hdr=                                 | sample=                        
+    G | hdr=                                 | sample=                        
+    H | hdr=                                 | sample=                        
+    I | hdr=Total possible payout            | sample=0                        | F[r2]==IF(H2>=80,E2+F2+G2,0)
+    J | hdr=Timecards Individual - Lose:     | sample=0%                       | F[r2]==IFERROR(VLOOKUP(C2,'Timecard exceptions individual'!B:G,6,0),"0%")
+    K | hdr=AWOL / ABSENT                    | sample=0%                       | F[r2]==if(or(sumifs(Calculations!I:I,Calculations!A:A,C2)>0,sumifs('Extra Awol'!D:D,'Extra Awol'!B:B,C2)>0),"100%","0%")
+    L | hdr=Termination if applicable        | sample=                         | F[r2]==index( Calculations!M:M,match(C2,Calculations!A:A,0),1)
+    M | hdr=PAYOUT LOCAL CURRENCY            | sample=0                        | F[r2]==if(or(L2="Misconduct",L2="Discharged",L2="Absconded"),0,(I2*(1-J2))*(1-K2))
+    N | hdr=Store Incentive Payout           | sample=0                        | F[r2]==IF(OR(L2="Misconduct", L2="Discharged", L2="Absconded"), 0, IF(H2<80, 0, IF(AND(F2*(1-J2)*(1-K2) > 1, F2*(1-J2)*(1-K2) < 50), 50, F2*(1-J2)*(1-K2))))
+    O | hdr=Manager Incentive Payout         | sample=0                        | F[r2]==IF(OR(L2="Misconduct", L2="Discharged", L2="Absconded"), 0, IF(H2<80, 0, IF(AND(((E2+G2)*(1-J2)*(1-K2)) > 1, ((E2+G2)*(1-J2)*(1-K2)) < 50), 50, ((E2+G2)*(1-J2)*(1-K2)))))
+    P | hdr=                                 | sample=                        
+    Q | hdr=                                 | sample=                        
+    R | hdr=                                 | sample=                        
+    S | hdr=                                 | sample=                        
+    T | hdr=                                 | sample=2026-01-01 00:00:00     
+    U | hdr=SA sales                         | sample=                        
+    V | hdr=                                 | sample=                        
+    W | hdr=                                 | sample=                        
+    X | hdr=                                 | sample=                        
+    Y | hdr=                                 | sample=                        
+    Z | hdr=                                 | sample=                        
+   AA | hdr=                                 | sample=                        
+   AB | hdr=                                 | sample=                        
+   AC | hdr=                                 | sample=                        
+   AD | hdr=                                 | sample=                        
+   AE | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Corrections   (formula tab: Formulas - Corrections)
+==========================================================================================
+    A | hdr=                                 | sample=Country                  | F[r3]==IF(ISBLANK(B3),,FILTER('Store master'!C:C,'Store master'!A:A=UNIQUE(INDEX(Calculations!E:E,MATCH(TRIM(B3),TRIM(Calculations!A:A),0),))))
+    B | hdr=                                 | sample=Employee Number         
+    C | hdr=                                 | sample=Store/Management         | F[r3]==IF(ISBLANK(B3),,UNIQUE(FILTER('PAYOUT PER PERSON'!B:B,TRIM('PAYOUT PER PERSON'!C:C)=TRIM(B3))))
+    D | hdr=Store Bonus                      | sample=Old Payout Amount (Store | F[r3]==M3
+    E | hdr=                                 | sample=New Payout Amount (Store | F[r3]==O3
+    F | hdr=                                 | sample=Difference in local curr | F[r3]==IF(OR(ISBLANK(D3),ISBLANK(E3)),,E3-D3)
+    G | hdr=Management Bonus                 | sample=Old  Payout Amount (Mana | F[r3]==N3
+    H | hdr=                                 | sample=New  Payout Amount (Mana | F[r3]==P3
+    I | hdr=                                 | sample=Difference in local curr | F[r3]==IF(OR(ISBLANK(G3),ISBLANK(H3)),,H3-G3)
+    J | hdr=                                 | sample=                        
+    K | hdr=                                 | sample=Consolidated amount      | F[r3]==IF(OR(ISBLANK(F3),ISBLANK(I3)),,I3+F3)
+    L | hdr=                                 | sample=                        
+    M | hdr=Paste                            | sample=Store                   
+    N | hdr=Paste                            | sample=Manager                 
+    O | hdr=Paste                            | sample=Store                   
+    P | hdr=Paste                            | sample=Manager                 
+    Q | hdr=                                 | sample=                        
+    R | hdr=                                 | sample=Comment/Note            
+    S | hdr=                                 | sample=Reason                  
+    T | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Calculations   (formula tab: Formulas - Calculations)
+==========================================================================================
+    A | hdr=person_personNumber              | sample=22009                   
+    B | hdr=person_fullname                  | sample=Morta, Patricia M       
+    C | hdr=Person_employmentStatus          | sample=Active                  
+    D | hdr=PrimaryJob                       | sample=Assistant Manager       
+    E | hdr=PrimaryStore                     | sample=Atlantis                
+    F | hdr=DayPrimaryJob                    | sample=31.0                    
+    G | hdr=HireDate                         | sample=2021-10-01 00:00:00     
+    H | hdr=%OfPrimaryJobDays                | sample=1.0                     
+    I | hdr=AllAWOLDay                       | sample=0.0                     
+    J | hdr=AllAbsentDays                    | sample=4.0                     
+    K | hdr=ActualHours                      | sample=198.7                   
+    L | hdr=Days Worked                      | sample=23.0                    
+    M | hdr=TerminationReason                | sample=                        
+    N | hdr=Country                          | sample=SOUTH AFRICA             | F[r2]==index('Store master'!C:C,match(E2,'Store master'!A:A,0),1)
+    O | hdr=Payout % of Monthly manager bonu | sample=0.41                     | F[r2]==IFERROR(IF(REGEXMATCH(D2,"Manager"),index( 'New Payout summary manager bonus'!R:R,match(E2,'New Payout summary manager bonus'!C:C,0),1),""),"Closed for revamp / Not elegible for bonus")
+    P | hdr=Blocked Drains Impact            | sample=0                        | F[r2]==IFERROR(VLOOKUP(E2,'Blocked Drains Impact'!B:C,2,0),0)
+    Q | hdr=Drop Validation Impact           | sample=0%                       | F[r2]==IFERROR(VLOOKUP(E2,'Drop Validation Impact'!B:C,2,0),0)
+    R | hdr=Manager Bonus                    | sample=683.3333333              | F[r2]==IF(OR(M2="Absconded", M2="Discharged"),0, IF(OR(REGEXMATCH(D2,"Star"),REGEXMATCH(D2,"Brand")),"",if(REGEXMATCH(D2,"Manager"),sumifs('New Payout summary manager bonus'!X:X,'New Payout summary manager bonus'!C:C,E2)*SUMIFS( 'Managers criteri
+    S | hdr=Store Bonus                      | sample=0                        | F[r2]==iferror(sumifs('New Payout summary store bonus'!AC:AC,'New Payout summary store bonus'!C:C,E2)/SUMIFS('New Payout summary store bonus'!Y:Y,'New Payout summary store bonus'!C:C,E2)*H2*(1-P2)*(1-Q2),"Closed for revamp / Store not elegible fo
+    T | hdr=Manager Overrider bonus          | sample=0                        | F[r2]==IF(OR(N2="ZIMBABWE",N2="MAURITIUS"),0,IFERROR(IF(REGEXMATCH(D2,"Manager"),XLOOKUP(E2,'New Payout summary manager bonus'!C:C,'New Payout summary manager bonus'!AK:AK)*H2*(1-P2),""), "Closed for revamp / Store not elegible for bonus"))
+    U | hdr=Total Employee Days              | sample=31                       | F[r2]==sumifs(F:F,A:A,A2)*H2
+    V | hdr=Employee Total Hours             | sample=198.7                    | F[r2]==sumifs(K:K,A:A,A2)
+    W | hdr=                                 | sample=                        
+    X | hdr=                                 | sample=                        
+    Y | hdr=                                 | sample=                        
+    Z | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Cluster Manager   (formula tab: Formulas - Cluster Manager)
+==========================================================================================
+    A | hdr=person_personNumber              | sample=1427822                  | F[r2]==vlookup(B2,P:Q,2,0)
+    B | hdr=person_fullname                  | sample=Zamokuhle Fortuante Mkhu
+    C | hdr=Person_employmentStatus          | sample=Active                  
+    D | hdr=PrimaryJob                       | sample=Cluster Manager         
+    E | hdr=PrimaryStore                     | sample=JABULANI                
+    F | hdr=Country                          | sample=SOUTH AFRICA             | F[r2]==IFERROR(FILTER('Qualifying Stores'!A:A,'Qualifying Stores'!C:C=E2),FILTER('Store master'!C:C,'Store master'!A:A=E2))
+    G | hdr=Blocked drains impact            | sample=0                        | F[r2]==IFERROR(XLOOKUP(E2,'New Payout summary manager bonus'!C:C,'New Payout summary manager bonus'!Q:Q),"Store not eligible for bonus")
+    H | hdr=Final Payout % of manager bonus  | sample=0.76                     | F[r2]==iferror(xlookup(E2,'New Payout summary manager bonus'!C:C,'New Payout summary manager bonus'!AJ:AJ),"Store not eligible for bonus")
+    I | hdr=Cluster Manager % obtained (30%  | sample=0.228                    | F[r2]==iferror(H2*0.3,"Store not eligible for bonus")
+    J | hdr=Cluster Manager Bonus            | sample=361                      | F[r2]==iferror(sumifs('New Payout summary manager bonus'!X:X,'New Payout summary manager bonus'!C:C,E2)*SUMIFS( 'Managers criteria'!D:D,'Managers criteria'!A:A,D2,'Managers criteria'!B:B, F2)*I2,"Store not eligible for bonus")
+    K | hdr=Manager Overrider bonus          | sample=0                        | F[r2]==iferror(XLOOKUP(E2,'New Payout summary manager bonus'!C:C,'New Payout summary manager bonus'!AK:AK),"Store not eligible for bonus")
+    L | hdr=Final Cluster Manager Bonus (inc | sample=361                      | F[r2]==iferror(J2+(K2*0.3),"Store not eligible for bonus")
+    M | hdr=                                 | sample=                        
+    N | hdr=                                 | sample=                        
+    O | hdr=                                 | sample=                        
+    P | hdr=person_fullname                  | sample=Zamokuhle Fortuante Mkhu | F[r2]==UNIQUE(V2:V124)
+    Q | hdr=person_personNumber              | sample=1427822                 
+    R | hdr=HomeStore                        | sample=PROTEA GLEN              | F[r2]==UNIQUE(FILTER(W:W,V:V=P2))
+    S | hdr=                                 | sample=PROTEA GLEN              | F[r2]==FILTER('Store master'!A:A,'Store master'!A:A=R2)
+    T | hdr=                                 | sample=T                        | F[r2]==if(R2=S2,"T","F")
+    U | hdr=                                 | sample=                        
+    V | hdr=cluster_manager                  | sample=Zamokuhle Fortuante Mkhu
+    W | hdr=home_store                       | sample=PROTEA GLEN             
+    X | hdr=managing_stores                  | sample=JABULANI                
+    Y | hdr=Country                          | sample=SOUTH AFRICA            
+
+==========================================================================================
+SHEET: Extra Awol   (formula tab: Formulas - Extra Awol)
+==========================================================================================
+    A | hdr=Date_partitionDate               | sample=2026-06-03 00:00:00     
+    B | hdr=person_personNumber              | sample=6686613                 
+    C | hdr=Store                            | sample=Melody Walk             
+    D | hdr=AWOLHours                        | sample=9.5                     
+    E | hdr=                                 | sample=                        
+    F | hdr=From the 1st to the 10th of the  | sample=Replace data            
+
+==========================================================================================
+SHEET: Managers criteria   (formula tab: Formulas - Managers criteria)
+==========================================================================================
+    A | hdr=                                 | sample=                        
+    B | hdr=RSA (Delivery Stores)            | sample=KPI                     
+    C | hdr=                                 | sample=What is measured        
+    D | hdr=                                 | sample=1                        | F[r2]==sum(D3:D10)
+    E | hdr=                                 | sample=Threshold               
+    F | hdr=                                 | sample=                        
+    G | hdr=                                 | sample=                        
+    H | hdr=                                 | sample=                        
+    I | hdr=                                 | sample=                        
+    J | hdr=                                 | sample=                        
+    K | hdr=                                 | sample=                        
+    L | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Store Staff Criteria   (formula tab: Formulas - Store Staff Criteria)
+==========================================================================================
+    A | hdr=Categories bonus criteria weight | sample=                        
+    B | hdr=                                 | sample=                         | F[r7]==B4+B5+B6
+    C | hdr=                                 | sample=                         | F[r7]==C4+C5+C6
+    D | hdr=                                 | sample=                        
+    E | hdr=                                 | sample=                        
+    F | hdr=                                 | sample=                        
+    G | hdr=                                 | sample=                        
+    H | hdr=                                 | sample=                        
+    I | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Employees info   (formula tab: Formulas - Employees info)
+==========================================================================================
+    A | hdr=Store code 4 Digit               | sample=3293.0                  
+    B | hdr=Store                            | sample=BELAS                   
+    C | hdr=                                 | sample=                        
+    D | hdr=Correct branch name              | sample=ACORNHOEK               
+    E | hdr=SUM of Current Incentive Bonus   | sample=34880.0                 
+    F | hdr=SUM of Final bonus (Adrian to co | sample=51000.0                 
+    G | hdr=Current monthly bonus            | sample=2906.666667              | F[r2]==E2/12
+    H | hdr=New monthly bonus potential      | sample=4250                     | F[r2]==F2/12
+    I | hdr=                                 | sample=                        
+    J | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA('Qualifying Stores'!C2:C),1,1)
+    K | hdr=COUNTUNIQUE of Employee Number   | sample=16.58064516              | F[r2]==map(offset(  J2,0,0,counta(J2:J)),lambda(a, sumifs(Calculations!F:F,Calculations!E:E,a,Calculations!V:V,">=80",Calculations!G:G,"<"&$N$1)/$M$1))
+    L | hdr=                                 | sample=                        
+    M | hdr=31.0                             | sample=Days in the month       
+    N | hdr=2026-05-31 00:00:00              | sample=Last day of the month   
+
+==========================================================================================
+SHEET: Sales   (formula tab: Formulas - Sales)
+==========================================================================================
+    A | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA('Qualifying Stores'!C2:C),1,1)
+    B | hdr=Actual_Sales                     | sample=980381                   | F[r2]==ARRAYFORMULA(IFERROR(VLOOKUP(A2:A,H:K,2,0),""))
+    C | hdr=Overrider [Capped 120%]          | sample=1.042958511              | F[r2]==ARRAYFORMULA(IFERROR(VLOOKUP(A2:A,H:K,4,0),""))
+    D | hdr=                                 | sample=                        
+    E | hdr=                                 | sample=                        
+    F | hdr=                                 | sample=                        
+    G | hdr=over cap values                  | sample=                         | F[r2]==IF(K2>120/100,1,)
+    H | hdr=store_name                       | sample=VIDA LUANDA AIRPORT KIOS
+    I | hdr=Actual Sales                     | sample=56547703.0              
+    J | hdr=Daily Target                     | sample=59600000.0              
+    K | hdr=check if over 120%               | sample=0.9487869631             | F[r2]==ARRAYFORMULA(IFERROR(I2:I/J2:J,""))
+
+==========================================================================================
+SHEET: Targets   (formula tab: Formulas - Targets)
+==========================================================================================
+    A | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA('Qualifying Stores'!C2:C),1,1)
+    B | hdr=SUM of Sales target              | sample=940000                   | F[r2]==ARRAYFORMULA(IFERROR(VLOOKUP(A2:A,Sales!H:J,3,0),""))
+
+==========================================================================================
+SHEET: Exchange info   (formula tab: Formulas - Exchange info)
+==========================================================================================
+    A | hdr=Country                          | sample=ANGOLA                  
+    B | hdr=2026-05-31 00:00:00              | sample=56.46318732              | F[r2]==index(GoogleFinance("CURRENCY:ZARAOA", "price", B1), 2, 2)
+    C | hdr=Last day of the month            | sample=                        
+
+==========================================================================================
+SHEET: Qualifying Stores   (formula tab: Formulas - Qualifying Stores)
+==========================================================================================
+    A | hdr=Country                          | sample=SOUTH AFRICA             | F[r2]==ARRAYFORMULA(IF(ISBLANK(C2:C),,IF(VLOOKUP(C2:C,L:T,3,0)="LESOTHO","SOUTH AFRICA",VLOOKUP(C2:C,L:T,3,0))))
+    B | hdr=Region                           | sample=KZN CENTRAL              | F[r2]==ARRAYFORMULA(IF(ISBLANK(C2:C),,VLOOKUP(C2:C,L:T,2,0)))
+    C | hdr=Store                            | sample=EMPANGENI                | F[r2]=={FILTER(L:L,T:T="Store");FILTER(L:L,T:T="Manager")}
+    D | hdr=Status                           | sample=Open                     | F[r2]==ARRAYFORMULA(IF(ISBLANK(C2:C),,(VLOOKUP(C2:C,L:T,4,0))))
+    E | hdr=Trade date after opening/revamp  | sample=2023-02-15 00:00:00      | F[r2]==ARRAYFORMULA(IF(ISBLANK(C2:C),,(VLOOKUP(C2:C,L:T,5,0))))
+    F | hdr=Classification (Management)      | sample=Qualified for bonus     
+    G | hdr=Comment (Management)             | sample=Not Applicable          
+    H | hdr=Classification (Store)           | sample=Qualified for bonus     
+    I | hdr=Comment (Store)                  | sample=Not Applicable          
+    J | hdr=Type                             | sample=Store                    | F[r2]==ARRAYFORMULA(IF(ISBLANK(C2:C),,VLOOKUP(C2:C,L:T,9,0)))
+    K | hdr=                                 | sample=                        
+    L | hdr=Name                             | sample=EMPANGENI               
+    M | hdr=Region                           | sample=KZN CENTRAL              | F[r2]==IF(ISBLANK(L2),,({FILTER('Store master'!B:E,'Store master'!A:A=L2),FILTER('Store master'!AE:AE,'Store master'!A:A=L2)}))
+    N | hdr=Country                          | sample=SOUTH AFRICA            
+    O | hdr=Status                           | sample=Open                    
+    P | hdr=Trade date after opening/revamp  | sample=2023-02-15 00:00:00     
+    Q | hdr=Store original opening date (dat | sample=2022-02-15 00:00:00     
+    R | hdr=Store Valid Date                 | sample=1                        | F[r2]==IF(ISBLANK(L2),,IF(ISBLANK(Q2),0,IF(Q2<=$W$3,1,0)))
+    S | hdr=Manager Valid Date               | sample=1                        | F[r2]==IF(ISBLANK(L2),,IF(ISBLANK(Q2),0,IF(Q2<=$W$2,1,0)))
+    T | hdr=Type                             | sample=Store                    | F[r2]==IF(ISBLANK(L2),,IF(O2<>"BOTSWANA FRANCHISE",IF(O2<>"Closed",IF(R2=1,"Store",IF(S2=1,"Manager","NA")),"NA"),"NA"))
+    U | hdr=                                 | sample=                        
+    V | hdr=Bonus Month                      | sample=Manager Start           
+    W | hdr=2026-05-01 00:00:00              | sample=2026-04-30 00:00:00      | F[r2]==EOMONTH(DATE(2026,5,1), -1)
+    X | hdr=May                              | sample=April                   
+    Y | hdr=                                 | sample=                        
+    Z | hdr=Exception List                   | sample=POLOKWANE EXCELSIOR STRE
+   AA | hdr=                                 | sample=                        
+   AB | hdr=                                 | sample=                        
+   AC | hdr=                                 | sample=                        
+   AD | hdr=                                 | sample=                        
+   AE | hdr=                                 | sample=                        
+   AF | hdr=                                 | sample=                        
+   AG | hdr=                                 | sample=                        
+   AH | hdr=                                 | sample=                        
+   AI | hdr=                                 | sample=                        
+   AJ | hdr=                                 | sample=                        
+   AK | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: New Payout summary manager bonu   (formula tab: Formulas - New Payout summary m)
+==========================================================================================
+    A | hdr=Country                          | sample=ANGOLA                   | F[r2]==ARRAYFORMULA(QUERY('Qualifying Stores'!A2:I,"Select A,B,C,F,G WHERE A != '' Order by A ASC ",0))
+    B | hdr=Region                           | sample=LUANDA HUNGRY LION      
+    C | hdr=Store                            | sample=BELAS                   
+    D | hdr=Classification (Management)      | sample=Qualified for bonus     
+    E | hdr=Comment (Management)             | sample=Not Applicable          
+    F | hdr=Store email address              | sample=32938@stores.hungrylion. | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,VLook!A:E,5,false)))
+    G | hdr=RM Email Adress                  | sample=mcosta@hungrylion.co.ao  | F[r2]==ARRAYFORMULA(if(LEN(C2:C)=0,"",VLOOKUP(B2:B,VLook!B:D,3,false)))
+    H | hdr=Store Code                       | sample=3293                     | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,VLook!A:F,6,false)))
+    I | hdr=Reached Sales Target             | sample=PASS                     | F[r2]==ARRAYFORMULA(if(LEN(C2:C)=0,"",if(W2:W>=1,"PASS","FAIL")))
+    J | hdr=Oil Shrink                       | sample=FAIL                     | F[r2]==ARRAYFORMULA(if(LEN(C2:C)=0,"",if(B2:B="SOUTH DEBONAIRS","",IF(B2:B="LUANDA DEBONAIRS","",VLOOKUP(C2:C,'Oil shrink'!A:G,7,FALSE)))))
+    K | hdr=Oil Quality                      | sample=                         | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",if(A2:A="ANGOLA","",vlookup(C2:C,'Oil Quality'!A:F,6,false))))
+    L | hdr=Abs Unacc Variance               | sample=FAIL                     | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,'Abs Unacc Variance'!B:H,7,FALSE)))
+    M | hdr=Labour Management                | sample=                         | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",IF(A2:A="ANGOLA","",VLOOKUP(C2:C,Labour!A:B,2,false))))
+    N | hdr=Delivery Performance             | sample=                         | F[r2]==if(A2="SOUTH AFRICA",IFERROR(VLOOKUP(C2,'Delivery Stores Performance'!A:D,4,false),""),if(A2="ZAMBIA",IFERROR(VLOOKUP(C2,'Delivery Stores Performance'!S:AA,9,0),""),""))
+    O | hdr=Virtual Assistent Adoption       | sample=                         | F[r2]==if(OR(A2="ANGOLA",A2="ESWATINI",A2="MAURITIUS",A2="ZIMBABWE"),"",vlookup(C2,'Virtual Assistant Adoption'!A:E,5,false))
+    P | hdr=Banking                          | sample=#N/A                     | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",IF(A2:A="ZAMBIA",VLOOKUP(C2:C,'Zambia Banking'!A:C,3,FALSE),VLOOKUP(C2:C,'RSA, ZIM, MAU & AngolaBanking'!A:C,3,FALSE))))
+    Q | hdr=Blocked Drains impact            | sample=0                        | F[r2]== VLOOKUP(C2,'Blocked Drains Impact'!B:C,2,0)
+    R | hdr=Payout % of monthly bonus        | sample=#N/A                     | F[r2]==IF(Q2="NO", 0%,
+   IF(AND(OR(A2="SOUTH AFRICA", A2="LESOTHO"), OR(N2="FAIL", N2="PASS")),
+      IF(I2="PASS",'Managers criteria'!$D$3,0) +
+      IF(J2="PASS",'Managers criteria'!$D$4,0) +
+      IF(K2="PASS",VLOOKUP(C2,'Oil Quality'!A:E,5,0
+    S | hdr=Sales Target local currency      | sample=10600000                 | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,Targets!A:B,2,false)))
+    T | hdr=Sales Target Rand                | sample=187732.9372              | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",S2:S/Y2:Y))
+    U | hdr=Actual Sales local currency      | sample=11446231                 | F[r2]==(IF(LEN(C2)=0,"",VLOOKUP(C2,Sales!A:B,2,false)))
+    V | hdr=Actual Sales Rand                | sample=202720.242               | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",U2:U/Y2:Y))
+    W | hdr=Over/Under % Sales Target        | sample=1.079833113              | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",if(iserror(U2:U/S2:S),0,U2:U/S2:S)))
+    X | hdr=Payout % of monthly bonus (for t | sample=#N/A                     | F[r2]==  map(offset(R2,0,0,counta(A2:A)),offset(Q2,0,0,counta(A2:A)),lambda(r,q,if(value(q)>=r,0,r-value(q))))
+    Y | hdr=Exchange rate                    | sample=56.46318732              | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",vlookup(A2:A,'Exchange info'!A:B,2,false)))
+    Z | hdr=Sales Target DB                  | sample=PASS. 50% payout         | F[r2]==IF(AND(A2="SOUTH AFRICA", ISNUMBER(MATCH(C2, 'Delivery Stores Performance'!A:A, 0)), U2>=S2), 
+    "PASS. " & TEXT('Managers criteria'!$D$3,"0%") & " payout",
+IF(AND(A2="SOUTH AFRICA", ISNA(MATCH(C2, 'Delivery Stores Performance'!A:A, 0)),
+   AA | hdr=Oil Shrink DB                    | sample=Oil shrink Failed        | F[r2]==IF(OR(J2="",A2="MAURITIUS"), 
+    "Not applicable", 
+IF(AND(J2="PASS", ISNUMBER(SEARCH("HUNGRY LION", B2))),"PASS. " & TEXT('Managers criteria'!$D$65,"0%") & " payout", 
+IF(AND(J2="PASS", A2="SOUTH AFRICA"),"PASS. " & TEXT('Managers criter
+   AB | hdr=Oil Quality DB                   | sample=Not applicable           | F[r2]==IF(OR(K2="",A2="ANGOLA"), 
+    "Not applicable", 
+    IF(K2="PASS", "PASS. " & TEXT(VLOOKUP(C2,'Oil Quality'!A:E,5,0),"0%") & " payout",IF(K2="FAIL", "Oil quality failed", "")))
+   AC | hdr=Abs Unacc Variance DB            | sample=Abs Unacc Variance Faile | F[r2]==IF(
+    L2="FAIL", 
+    "Abs Unacc Variance Failed",
+    IF(
+        AND(A2="SOUTH AFRICA", L2="PASS"), 
+        "PASS " & TEXT('Managers criteria'!$D$6, "0%") & " payout",
+        IF(
+            AND(A2="NAMIBIA", L2="PASS"), 
+           
+   AD | hdr=Labour Efficiency DB             | sample=Not applicable           | F[r2]==IF(A2="ANGOLA","Not applicable",IF(
+    M2="FAIL", 
+    "Labour efficiency Failed",
+    IF(
+        AND(A2="SOUTH AFRICA", M2="PASS"), 
+        "PASS " & TEXT('Managers criteria'!$D$7, "0%") & " payout",
+        IF(
+            AND(A2="NAM
+   AE | hdr=Delivery Performance DB          | sample=Not applicable           | F[r2]==IF(N2="", "Not applicable",
+IF(AND(A2="SOUTH AFRICA", N2="PASS"),"PASS. " & TEXT('Managers criteria'!$D$8,"0%") & " payout",
+IF(AND(A2="ZAMBIA", N2="PASS"),"PASS. " & TEXT(VLOOKUP(C2,'Delivery Stores Performance'!S:AB,10,0),"0%") & " payou
+   AF | hdr=Virtual Assistant Adoption DB    | sample=Not applicable           | F[r2]==IF(OR(A2="ANGOLA",A2="SWAZILAND"),"Not applicable",IF(
+    O2="FAIL", 
+    "Co Pilot Adoption Failed",
+    IF(
+        AND(OR(A2="SOUTH AFRICA",A2="MAURITIUS"), O2="PASS"), 
+        "PASS " & TEXT('Managers criteria'!$D$9, "0%") & " payout
+   AG | hdr=Banking DB                       | sample=#N/A                     | F[r2]==IF(
+    P2="FAIL", 
+    "Banking Failed",
+    IF(
+        AND(A2="SOUTH AFRICA", P2="PASS"), 
+        "PASS " & TEXT('Managers criteria'!$D$10, "0%") & " payout",
+        IF(
+            AND(A2="NAMIBIA", P2="PASS"), 
+            "PASS " &
+   AH | hdr=Blocked Drains impact            | sample=0                        | F[r2]==Q2
+   AI | hdr=Drop validation impact           | sample=100%                     | F[r2]==VLOOKUP(C2,'Drop Validation Impact'!B:C,2,0)
+   AJ | hdr=Percentage obtained DB           | sample=0%                       | F[r2]==IF(AI2="100%","0%",X2)
+   AK | hdr=Overrider Bonus                  | sample=                         | F[r2]==IF(A2="ANGOLA","",IF(
+  L2="FAIL",
+  0,
+  IF(
+    AND(
+      W2 >= 'Managers criteria'!$B$133,
+      W2 < 'Managers criteria'!$C$133
+    ),
+    'Managers criteria'!$D$133,
+    IF(
+      AND(
+        W2 >= 'Managers criteria'!$B$134,
+      
+   AL | hdr=oil quality score                | sample=                         | F[r2]==IF(A2="ANGOLA","",XLOOKUP(C2,'Oil Quality'!A:A,'Oil Quality'!E:E))
+
+==========================================================================================
+SHEET: New Payout summary store bonus   (formula tab: Formulas - New Payout summary s)
+==========================================================================================
+    A | hdr=Country                          | sample=ANGOLA                  
+    B | hdr=Region                           | sample=LUANDA HUNGRY LION      
+    C | hdr=Store                            | sample=BELAS                   
+    D | hdr=Classification (Store)           | sample=Qualified for bonus      | F[r2]==Arrayformula(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,'Qualifying Stores'!C:H,6,false)))
+    E | hdr=Comment (Store)                  | sample=Not Applicable           | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",(VLOOKUP(C2:C,'Qualifying Stores'!C:K,7,false))))
+    F | hdr=Store email address              | sample=32938@stores.hungrylion. | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,'New Payout summary manager bonus'!C:H,4,false)))
+    G | hdr=RM Email Adress                  | sample=mcosta@hungrylion.co.ao  | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,'New Payout summary manager bonus'!C:H,5,false)))
+    H | hdr=Store Code                       | sample=3293                     | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,'New Payout summary manager bonus'!C:H,6,false)))
+    I | hdr=Oil Shrink                       | sample=                         | F[r2]==ARRAYFORMULA(if(LEN(C2:C)=0,"",if(A2:A="ANGOLA","",VLOOKUP(C2:C,'Oil shrink'!A:G,7,FALSE))))
+    J | hdr=Abs Unacc Variance               | sample=FAIL                     | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",vlookup(C2:C,'Abs Unacc Variance'!B:H,7,FALSE)))
+    K | hdr=Sales Target local currency      | sample=10600000                 | F[r2]==ARRAYFORMULA(IF(LEN($C2:$C)=0,"", VLOOKUP($C2:$C,'New Payout summary manager bonus'!$C:$S,17,false)))
+    L | hdr=Sales Target Rand                | sample=187732.9372              | F[r2]==ARRAYFORMULA(IF(LEN($C2:$C)=0,"", VLOOKUP($C2:$C,'New Payout summary manager bonus'!$C:$T,18,false)))
+    M | hdr=Actual Sales local currency      | sample=11446231                 | F[r2]==ARRAYFORMULA(IF(LEN($C2:$C)=0,"", VLOOKUP($C2:$C,Sales!A:B,2,false)))
+    N | hdr=Actual Sales Rand                | sample=202720.242               | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"", M2:M/W2:W))
+    O | hdr=Over/Under %                     | sample=1.079833113              | F[r2]==ARRAYFORMULA(IF(LEN($C2:$C)=0,"", if(iserror(M2:M/K2:K),0,M2:M/K2:K)))
+    P | hdr=Achieved sales target            | sample=Yes                      | F[r2]==ARRAYFORMULA(if(LEN(C2:C)=0,"",if(O2:O>1,"Yes","No")))
+    Q | hdr=Abs Unacc Variance               | sample=No                       | F[r2]==IF(J2="PASS","Yes","No")
+    R | hdr=Overall Qualification            | sample=Yes                      | F[r2]==if(AND(A2="ANGOLA",P2="Yes"),"Yes",IF(AND(P2="Yes",Q2="Yes"),"Yes","No"))
+    S | hdr=Potential payout local currency  | sample=84623.1                  | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",if(A2:A="ANGOLA",if(R2:R="No",0,(0.1*(M2:M-K2:K))),if(R2:R="No",0,(0.1*(M2:M-K2:K))))))
+    T | hdr=Payout %                         | sample=0.7                      | F[r2]==ARRAYFORMULA(
+  IF(LEN(C2:C)=0,
+    "",
+    IFS(A2:A="ANGOLA",
+        'Store Staff Criteria'!$C$4 + IF(J2:J="PASS",'Store Staff Criteria'!$C$6,0),
+        TRUE,
+        'Store Staff Criteria'!$B$4 + IF(I2:I="PASS",'Store Staff Criteria'!$
+    U | hdr=Payout actual score              | sample=0.5714285714             | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",if(A2:A="ANGOLA",(T2:T-0.3)/0.7,(T2:T-0.2)/0.8)))
+    V | hdr=Payout Amount local currency     | sample=59236.17                 | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",if(A2:A="ANGOLA",IF(R2:R="Yes",T2:T*(M2:M-K2:K)*0.1,0),IF(R2:R="Yes",T2:T*(M2:M-K2:K)*0.1,0))))
+    W | hdr=Exchange rate                    | sample=56.46318732              | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",vlookup(A2:A,'Exchange info'!A:B,2,false)))
+    X | hdr=Payout Amount Rand               | sample=1049.111338              | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",V2:V/W2:W))
+    Y | hdr=Employee Count                   | sample=11                       | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",VLOOKUP(C2:C,'Employees info'!$J:$K,2,FALSE)))
+    Z | hdr=Payout per person (before adjust | sample=95.373758                | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",IF(Y2:Y=0,0,X2:X/Y2:Y)))
+   AA | hdr=Payout per person (after minimum | sample=95.373758                | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",IF(R2:R="No",0,(IF(Z2:Z<50,50,Z2:Z)))))
+   AB | hdr=Payout amount Rand per store aft | sample=1049.111338              | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",AA2:AA*Y2:Y))
+   AC | hdr=Payout amount per store local cu | sample=59236.17                 | F[r2]==ARRAYFORMULA(IF(LEN(C2:C)=0,"",IF(D2:D="Did not qualify for bonus", 0, AB2:AB*W2:W)))
+   AD | hdr=                                 | sample=                        
+   AE | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: New Info for store bonus comms   (formula tab: Formulas - New Info for store b)
+==========================================================================================
+    A | hdr=                                 | sample=Country                  | F[r2]==ARRAYFORMULA('New Payout summary store bonus'!A:H)
+    B | hdr=                                 | sample=Region                  
+    C | hdr=                                 | sample=Store                   
+    D | hdr=                                 | sample=Classification (Store)  
+    E | hdr=                                 | sample=Comment (Store)         
+    F | hdr=                                 | sample=Store email address     
+    G | hdr=                                 | sample=RM Email Adress         
+    H | hdr=                                 | sample=Store Code              
+    I | hdr=                                 | sample=Shrink Ex Oil Upper Limi | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(A3:A,'Store Staff Criteria'!$A$29:$C$36,2,FALSE)))
+    J | hdr=                                 | sample=Shrink Ex Oil Lower Limi | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(A3:A,'Store Staff Criteria'!$A$29:$C$36,3,FALSE)))
+    K | hdr=                                 | sample=Oil Shrink Target        | F[r3]==MAP(OFFSET(B3,0,0,COUNTA(B3:B)),OFFSET(C3,0,0,COUNTA(B3:B)),LAMBDA(B, C, IF(OR(B="LUANDA DEBONAIRS",b="SOUTH DEBONAIRS",B="LUANDA VIDA E CAFFE"),"NONE",index( VLook!M:M,match(C,VLook!K:K,0),1))))
+    L | hdr=CRITERIA WEIGHTINGS              | sample=Oil shrink weight        | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",IF(A3:A="ANGOLA",0,0.16)))
+    M | hdr=                                 | sample=Abs Unacc Variance weigh | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",IF(A3:A="ANGOLA",0.3,0.64)))
+    N | hdr=CRITERIA RESULT                  | sample=Oil Shrink               | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",IF(A3:A="ANGOLA","",VLOOKUP(C3:C,'New Payout summary store bonus'!C:I,7,FALSE))))
+    O | hdr=                                 | sample=Abs Unacc Variance       | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(C3:C,'New Payout summary store bonus'!C:J,8,FALSE)))
+    P | hdr=                                 | sample=Sales Target local curre | F[r3]==ARRAYFORMULA(IF(LEN($C3:$C)=0,"", VLOOKUP($C3:$C,Targets!A:B,2,false)))
+    Q | hdr=                                 | sample=Actual Sales local curre | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(C3:C,Sales!A:B,2,FALSE)))
+    R | hdr=                                 | sample=Achieved sales target    | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(C3:C,'New Payout summary store bonus'!C:P,14,false)))
+    S | hdr=                                 | sample=Achieved Time Exception  | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(C3:C,'New Payout summary store bonus'!C:Q,15,false)))
+    T | hdr=                                 | sample=Overall Qualification    | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(C3:C,'New Payout summary store bonus'!C:R,16,false)))
+    U | hdr=                                 | sample=Potential payout local c | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(C3:C,'New Payout summary store bonus'!C:V,17,false)))
+    V | hdr=                                 | sample=Payout %                 | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(C3:C,'New Payout summary store bonus'!C:U,18,false)))
+    W | hdr=                                 | sample=Payout Amount local curr | F[r3]==ARRAYFORMULA(IF(LEN(C3:C)=0,"",VLOOKUP(C3:C,'New Payout summary store bonus'!C:X,20,false)))
+    X | hdr=                                 | sample=Time exception reason   
+    Y | hdr=                                 | sample=Maximum potential payout | F[r3]==IF(Q3>P3, "20% of the amount over the sales target: " & TEXT(ROUND((Q3-P3)*0.2, 0), "#,##0"), "Sales target not reached")
+    Z | hdr=                                 | sample=Guranteed (local currenc | F[r3]==IFERROR(
+  IF(A3="ANGOLA",
+    "Guaranteed payout: " & TEXT('Store Staff Criteria'!$C$4,"0%") & " of the maximum potential payout: "  & TEXT(ROUND(VALUE(SUBSTITUTE(REGEXEXTRACT(Y3, "\d[\d,]*$"), ",", "")) * 'Store Staff Criteria'!$C$4, 0),
+   AA | hdr=                                 | sample=Oil shrink               | F[r3]==IFERROR(
+  IFS(
+    A3="ANGOLA", "Not applicable",
+    N3="PASS", "Pass. Payout for this criteria is: " & TEXT(ROUND(VALUE(SUBSTITUTE(REGEXEXTRACT(Y3, "\d[\d,]*$"), ",", ""))*'Store Staff Criteria'!$B$5, 0), "#,##0"),
+    N3="FAIL", "Fail.
+   AB | hdr=                                 | sample=Abs Unacc Variance       | F[r3]==IFERROR(
+  IFS(
+    AND(A3="ANGOLA", O3="PASS"), "Pass. Payout for this criteria is " & TEXT(ROUND(VALUE(SUBSTITUTE(REGEXEXTRACT(Y3, "\d[\d,]*$"), ",", ""))*'Store Staff Criteria'!$C$6, 0), "#,##0"),
+    AND(A3="SOUTH AFRICA", O3="PASS"), 
+   AC | hdr=Angola                           | sample=Total payout             | F[r3]==ARRAYFORMULA(
+  IF(
+    D3:D = "Did not qualify for bonus",
+    0 & " - " & E3:E,
+    IF(
+      OR(
+        REGEXMATCH(Z3:Z, "\d[\d,]*$"),
+        AND(REGEXMATCH(AA3:AA, "^Pass"), REGEXMATCH(AA3:AA, "\d[\d,]*$")),
+        AND(REGEXMATCH(AB
+   AD | hdr=All other stores                 | sample=                         | F[r3]==ARRAYFORMULA(
+  IF(
+    D3:D = "Did not qualify for bonus",
+    0 & " - " & E3:E,
+    IF(
+      (AF3:AF = 1) + (AF3:AF = "100%"),
+      "0. Drop Validation Failed",
+      IF(
+        LEFT(AB3:AB, 4) = "Fail",
+        "0. Abs Unacc Variance
+   AE | hdr=                                 | sample=Blocked Drains impact    | F[r3]== VLOOKUP(C3,'Blocked Drains Impact'!B:C,2,0)
+   AF | hdr=                                 | sample=Drop validation impact   | F[r3]==VLOOKUP(C3,'Drop Validation Impact'!B:C,2,0)
+   AG | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Oil shrink   (formula tab: Formulas - Oil shrink)
+==========================================================================================
+    A | hdr=                                 | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA('Qualifying Stores'!C2:C),1,1)
+    B | hdr=Oil Category                     | sample=MEDIUM-SMALL             | F[r2]==ARRAYFORMULA(IFERROR(VLOOKUP(A2:A,VLook!K:M,2,0),""))
+    C | hdr=Threshold                        | sample=-0.2175                  | F[r2]==ARRAYFORMULA(IFERROR(VLOOKUP(A2:A,VLook!K:M,3,0),""))
+    D | hdr=Oil Units Sold                   | sample=100                      | F[r2]==ARRAYFORMULA(IFERROR(VLOOKUP(A2:A,I:K,2,0),""))
+    E | hdr=Oil Units Shrink                 | sample=1                        | F[r2]==ARRAYFORMULA(IFERROR(VLOOKUP(A2:A,I:K,3,0),""))
+    F | hdr=Oil Shrink %                     | sample=0.01                     | F[r2]==ARRAYFORMULA(IF(LEN(A2:A)=0,"",(E2:E/D2:D)))
+    G | hdr=Pass/Fail                        | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(LEN(B2:B)=0,"",IF(F2:F>C2:C,"PASS","FAIL")))
+    H | hdr=                                 | sample=                        
+    I | hdr=Branch                           | sample=BENFICA                 
+    J | hdr=SOLD                             | sample=76.10078                
+    K | hdr=VARIANCE QUANTITY                | sample=-426.71822              
+    L | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Abs Unacc Variance   (formula tab: Formulas - Abs Unacc Variance)
+==========================================================================================
+    A | hdr=Country                          | sample=SOUTH AFRICA             | F[r2]==ARRAYFORMULA(IF(B2:B="",,XLOOKUP(B2:B,'Qualifying Stores'!C:C,'Qualifying Stores'!A:A,0)))
+    B | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA('Qualifying Stores'!C2:C),1,1)
+    C | hdr=Upper limt                       | sample=0.06                     | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(A2:A,'Store Staff Criteria'!$A$28:$C$36,2,0)))
+    D | hdr=Lower limit                      | sample=0                        | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(A2:A,'Store Staff Criteria'!$A$28:$C$36,3,0)))
+    E | hdr=Sales                            | sample=980381                   | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(B2:B,Sales!A:B,2,0)))
+    F | hdr=Abs Unacc Variance               | sample=87107.63322              | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(B2:B,O:P,2,0)))
+    G | hdr=Abs Unacc Var as % of sales      | sample=0.088850797              | F[r2]==ARRAYFORMULA(IF(A2:A="",,IFERROR(F2:F/E2:E,"")))
+    H | hdr=Pass/Fail                        | sample=FAIL                     | F[r2]==MAP(OFFSET(C2,0,0,COUNTA(C2:C)),OFFSET(D2,0,0,COUNTA(D2:D)),OFFSET(G2,0,0,COUNTA(G2:G)),LAMBDA(c,d,g,IF(AND(g<c,g>=d),"PASS","FAIL")))
+    I | hdr=                                 | sample=                        
+    J | hdr=Branch                           | sample=LERIBE                  
+    K | hdr=Absolute_Unaccounted_Variance_Va | sample=18319.13                
+    L | hdr=                                 | sample=                        
+    M | hdr=                                 | sample=                        
+    N | hdr=                                 | sample=                        
+    O | hdr=Branch                           | sample=LERIBE                  
+    P | hdr=Absolute_Unaccounted_Variance_Va | sample=61680.232                | F[r2]==FILTER(W:W,V:V=O2)
+    Q | hdr=                                 | sample=                        
+    R | hdr=Branch                           | sample=PRETORIA JSL TOWERS     
+    S | hdr=Absolute_Unaccounted_Variance_Va | sample=0.0                     
+    T | hdr=< without w&p tomato sachets for | sample=                         | F[r2]==IF(ROUND(FILTER(W:W,V:V=R2),2)=ROUND(S2,2),,FILTER(W:W,V:V=R2))
+    U | hdr=                                 | sample=                        
+    V | hdr=                                 | sample=Branch                  
+    W | hdr=2026-06-10 00:00:00              | sample=Absolute_Unaccounted_Var
+    X | hdr=                                 | sample=                        
+    Y | hdr=Roll Over Issue Exeption         | sample=VANDERBIJLPARK VAALGATE 
+    Z | hdr=                                 | sample=175288.063015529        
+   AA | hdr=                                 | sample=957976                   | F[r2]==FILTER(E:E,B:B=Y2)
+   AB | hdr=                                 | sample=                        
+   AC | hdr=                                 | sample=                        
+   AD | hdr=Refined Exclusion list           | sample=BAYSIDE MALL            
+   AE | hdr=                                 | sample=                        
+   AF | hdr=                                 | sample=                        
+   AG | hdr=                                 | sample=                        
+   AH | hdr=                                 | sample=                        
+   AI | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Labour   (formula tab: Formulas - Labour)
+==========================================================================================
+    A | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA(QUERY('Qualifying Stores'!A2:C,"Select Col3 Where Col1 != 'ANGOLA'")),1,1)
+    B | hdr=FAIL/PASS                        | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(A2:A="",,IFERROR(VLOOKUP(A2:A,E:G,3,0),"PASS")))
+    C | hdr=                                 | sample=                        
+    D | hdr=                                 | sample=                        
+    E | hdr=Store                            | sample=CAPE GATE               
+    F | hdr=Cover deviation                  | sample=Fail                    
+    G | hdr=FAIL/PASS                        | sample=FAIL                    
+
+==========================================================================================
+SHEET: Angola Results   (formula tab: Formulas - Angola Results)
+==========================================================================================
+    A | hdr=store_name                       | sample=LUBANGO                 
+    B | hdr=Shrink excl oil                  | sample=627990.0                 | F[r27]==VLOOKUP(A27,Sales!H:I,2,0)
+    C | hdr=Oil Sold                         | sample=352.83592                | F[r27]==D27/B27
+    D | hdr=Oil Variance Qty                 | sample=-220.22168              
+    E | hdr=                                 | sample=                        
+    F | hdr=                                 | sample=                        
+    G | hdr=                                 | sample=                        
+    H | hdr=                                 | sample=                        
+    I | hdr=                                 | sample=                        
+    J | hdr=                                 | sample=                        
+    K | hdr=                                 | sample=                        
+    L | hdr=                                 | sample=                        
+    M | hdr=                                 | sample=                        
+    N | hdr=                                 | sample=                        
+    O | hdr=                                 | sample=                        
+    P | hdr=                                 | sample=                        
+    Q | hdr=                                 | sample=                        
+    R | hdr=                                 | sample=                        
+    S | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Virtual Assistant Adoption   (formula tab: Formulas - Virtual Assistant Ad)
+==========================================================================================
+    A | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA(QUERY('Qualifying Stores'!A2:C,"SELECT Col3 WHERE Col1 = 'SOUTH AFRICA' OR  Col1 = 'NAMIBIA' OR  Col1 = 'ZAMBIA' OR Col1 = 'MAURITIUS' OR Col1 = 'ZIMBABWE'")),1,1)
+    B | hdr=Nudges pass/fail                 | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(A2:A,I:L,4,0)))
+    C | hdr=Thawing plan pass/fail           | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(A2:A,N:P,3,0)))
+    D | hdr=Drop plan pass/fail              | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(A2:A,R:T,3,0)))
+    E | hdr=Overall compliance               | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(A2:A="",,IF((B2:B="PASS") * (C2:C="PASS") * (D2:D="PASS"), "PASS", "FAIL")))
+    F | hdr=                                 | sample=                        
+    G | hdr=Country                          | sample=BOTSWANA                 | F[r2]==ARRAYFORMULA(IF(I2:I="",,XLOOKUP(I2:I,'Store master'!A:A,'Store master'!C:C)))
+    H | hdr=Region                           | sample=BOTSWANA FRANCHISE       | F[r2]==ARRAYFORMULA(IF(I2:I="",,XLOOKUP(I2:I,'Store master'!A:A,'Store master'!B:B)))
+    I | hdr=store_name                       | sample=PALM GROVE PUMA         
+    J | hdr=Avg Response Time                | sample=20.37352941             
+    K | hdr=Alert per Day                    | sample=3.090909091             
+    L | hdr=Pass/Fail                        | sample=FAIL                     | F[r2]==ARRAYFORMULA(IF(I2:I="",,IF(J2:J<=2,"PASS","FAIL")))
+    M | hdr=                                 | sample=                        
+    N | hdr=Branch                           | sample=IBEX HILL MALL          
+    O | hdr=Thawing plan recon               | sample=0.9984346241            
+    P | hdr=Pass/Fail                        | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(N2:N="",,IF(O2:O>=0.85, "PASS", "FAIL")))
+    Q | hdr=                                 | sample=                        
+    R | hdr=Branch                           | sample=MANZINI BUS RANK        
+    S | hdr=Drop plan recon                  | sample=0.0                     
+    T | hdr=Pass/Fail                        | sample=FAIL                     | F[r2]==ARRAYFORMULA(IF(R2:R="",,IF(S2:S>=0.85, "PASS", "FAIL")))
+    U | hdr=                                 | sample=                        
+    V | hdr=Branch                           | sample=PALM GROVE PUMA         
+    W | hdr=Avg Response Time                | sample=20.37352941             
+    X | hdr=Alert per Day                    | sample=3.090909091             
+    Y | hdr=                                 | sample=                        
+    Z | hdr=branch                           | sample=IBEX HILL MALL          
+   AA | hdr=Thaw Plan Recon                  | sample=0.9984346241            
+   AB | hdr=                                 | sample=                        
+   AC | hdr=branch                           | sample=MANZINI BUS RANK        
+   AD | hdr=Drop Plan Recon Score            | sample=0.0                     
+   AE | hdr=                                 | sample=                        
+   AF | hdr=                                 | sample=                        
+   AG | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Oil Quality   (formula tab: Formulas - Oil Quality)
+==========================================================================================
+    A | hdr=                                 | sample=Store                    | F[r3]==SORT(ARRAYFORMULA(QUERY('Qualifying Stores'!A2:C,"Select Col3 Where Col1 != 'ANGOLA'")),1,1)
+    B | hdr=                                 | sample=TPM                      | F[r3]==ARRAYFORMULA(IF(A3:A="",,IFERROR(VLOOKUP(A3:A,G:K,5,0),"FAIL")))
+    C | hdr=                                 | sample=Checklists               | F[r3]==ARRAYFORMULA(IF(A3:A="",,VLOOKUP(A3:A,M3:O,3,0)))
+    D | hdr=                                 | sample=Stock take               | F[r3]==ARRAYFORMULA(IF(A3:A="",,VLOOKUP(A3:A,Q3:S,3,0)))
+    E | hdr=                                 | sample=% Obtained               | F[r3]==IF(AND(B3="PASS",C3="PASS",D3="PASS"),
+    0.1,
+    COUNTIF(B3:D3,"PASS")*0.03
+)
+    F | hdr=                                 | sample=PASS/FAIL                | F[r3]==IF(OR(B3="PASS",C3="PASS",D3="PASS"),"PASS","FAIL")
+    G | hdr=TPM Readings                     | sample=Store                   
+    H | hdr=                                 | sample=Total TPM done          
+    I | hdr=                                 | sample=TPM > 25                
+    J | hdr=                                 | sample=TPM % > 25               | F[r3]==ARRAYFORMULA(IF(I3:I="",,I3:I/H3:H))
+    K | hdr=                                 | sample=PASS/FAIL                | F[r3]==ARRAYFORMULA(IF(J3:J>0.05,"FAIL","PASS"))
+    L | hdr=                                 | sample=                        
+    M | hdr=Co-Pilot Checklists              | sample=Store                   
+    N | hdr=                                 | sample=Checklist complete %    
+    O | hdr=                                 | sample=PASS/FAIL                | F[r3]==ARRAYFORMULA(IF(N3:N="",,IF(N3:N<0.895,"FAIL","PASS")))
+    P | hdr=                                 | sample=                        
+    Q | hdr=Stock take                       | sample=Store                   
+    R | hdr=                                 | sample=Stocktake %             
+    S | hdr=                                 | sample=PASS/FAIL                | F[r3]==ARRAYFORMULA(IF(R3:R="",,IF(R3:R<0.895,"FAIL","PASS")))
+    T | hdr=                                 | sample=                        
+    U | hdr=                                 | sample=                        
+    V | hdr=                                 | sample=                        
+    W | hdr=Country                          | sample=ANGOLA                  
+    X | hdr=Division                         | sample=LUANDA HUNGRY LION      
+    Y | hdr=Branch                           | sample=PALANCA                 
+    Z | hdr=Checklist Category               | sample=Oil Management          
+   AA | hdr=To_Do                            | sample=496.0                   
+   AB | hdr=Checklist Done                   | sample=-                       
+   AC | hdr=% Completed Tasks                | sample=-                       
+   AD | hdr=                                 | sample=                        
+   AE | hdr=Branch                           | sample=PALANCA                 
+   AF | hdr=To_Do                            | sample=496.0                   
+   AG | hdr=Checklist Done                   | sample=0.0                     
+   AH | hdr=% Completed Tasks                | sample=0.0                     
+
+==========================================================================================
+SHEET: RSA, ZIM, MAU & AngolaBanking   (formula tab: Formulas - RSA, ZIM, MAU & Ango)
+==========================================================================================
+    A | hdr=Store                            | sample=EMPANGENI                | F[r2]==ARRAYFORMULA(QUERY('Qualifying Stores'!A2:C,"Select Col3 Where Col1 = 'ANGOLA' OR Col1 = 'SOUTH AFRICA' OR Col1 = 'NAMIBIA' OR Col1 = 'ESWATINI' OR Col1 = 'ZIMBABWE' OR Col1 = 'MAURITIUS'"))
+    B | hdr=Result                           | sample=Compliant                | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(A2:A,G:H,2,0)))
+    C | hdr=Pass/Fail                        | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(LEN(A2:A)=0,"",(IF(B2:B="Compliant","PASS","FAIL"))))
+    D | hdr=                                 | sample=                        
+    E | hdr=Country                          | sample=SOUTH AFRICA             | F[r2]==FILTER('Qualifying Stores'!N:N,'Qualifying Stores'!L:L=A2)
+    F | hdr=                                 | sample=                        
+    G | hdr=Store name                       | sample=EMPANGENI               
+    H | hdr=Overall performance              | sample=Compliant                | F[r2]==FILTER(M:N,L:L=G2)
+    I | hdr=Reason                           | sample=Compliant               
+    J | hdr=                                 | sample=                        
+    K | hdr=Country                          | sample=SOUTH AFRICA             | F[r2]==FILTER('Qualifying Stores'!N:N,'Qualifying Stores'!L:L=L2)
+    L | hdr=store_name                       | sample=ELOFF STREET            
+    M | hdr=Compliant/non compliant          | sample=                        
+    N | hdr=Overall performance              | sample=                        
+    O | hdr=                                 | sample=                        
+    P | hdr=STORE                            | sample=MAURITIUS VICTORIA URBAN
+    Q | hdr=If all 2 are ticked, store gets  | sample=Incentive Payout        
+    R | hdr=Comment for Evidence             | sample=                        
+    S | hdr=                                 | sample=                        
+    T | hdr=STORE                            | sample=HARARE GREENFIELDS CENTR
+    U | hdr=If all 2 are ticked, store gets  | sample=Incentive Payout        
+    V | hdr=Comment for Evidence             | sample=                        
+
+==========================================================================================
+SHEET: Zambia Banking   (formula tab: Formulas - Zambia Banking)
+==========================================================================================
+    A | hdr=Store                            | sample=BAROTSE MALL             | F[r2]==SORT(ARRAYFORMULA(QUERY('Qualifying Stores'!A2:C,"Select Col3 Where Col1 = 'ZAMBIA'")),1,1)
+    B | hdr=Payout?                          | sample=Incentive Payout         | F[r2]==ARRAYFORMULA(IF(A2:A="",,VLOOKUP(A2:A,E:F,2,0)))
+    C | hdr=Pass/Fail                        | sample=PASS                     | F[r2]==ARRAYFORMULA((IF(LEN(A2:A)=0,"",IFERROR(IF(B2:B="Incentive Payout","PASS","FAIL"),"FAIL"))))
+    D | hdr=                                 | sample=                        
+    E | hdr=STORE                            | sample=BAROTSE MALL             | F[r2]==FILTER(H:H,H:H<>"")
+    F | hdr=If all 2 are ticked, store gets  | sample=Incentive Payout         | F[r2]==FILTER(J:K,H:H=E2)
+    G | hdr=                                 | sample=                        
+    H | hdr=                                 | sample=BAROTSE MALL             | F[r2]==FILTER('Store master'!A:A,'Store master'!K:K=I2)
+    I | hdr=SITE                             | sample=6963.0                  
+    J | hdr=If all 2 are ticked, store gets  | sample=Incentive Payout        
+    K | hdr=Comment for Evidence             | sample=                        
+    L | hdr=                                 | sample=                        
+    M | hdr=                                 | sample=BAROTSE MALL            
+    N | hdr=                                 | sample=Incentive Payout        
+    O | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Delivery Stores Performance   (formula tab: Formulas - Delivery Stores Perf)
+==========================================================================================
+    A | hdr=Store                            | sample=EAST LONDON TAXI CITY   
+    B | hdr=Acceptance Rate                  | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(LEN(A2:A)=0,"",IFERROR(VLOOKUP(A2:A,F:H,3,0),"PASS")))
+    C | hdr=Online Rate                      | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(LEN(A2:A)=0,"",VLOOKUP(A2:A,J:N,5,0)))
+    D | hdr=Overall Score                    | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(A2:A<>"",IF((B2:B="PASS")*(C2:C="PASS"),"PASS","FAIL"),""))
+    E | hdr=                                 | sample=                        
+    F | hdr=Restaurant                       | sample=Not currently used      
+    G | hdr=Acceptance rate                  | sample=                        
+    H | hdr=Pass/Fail                        | sample=                        
+    I | hdr=                                 | sample=                        
+    J | hdr=Store                            | sample=EAST LONDON TAXI CITY   
+    K | hdr=Uber online rate                 | sample=99.41                   
+    L | hdr=Mr D online rate                 | sample=                        
+    M | hdr=Avg online rate                  | sample=0.9941                   | F[r2]==ARRAYFORMULA(IF(ISBLANK(K2:K),,K2:K/100))
+    N | hdr=Pass/Fail                        | sample=PASS                     | F[r2]==ARRAYFORMULA(IF(ISBLANK(M2:M),,IF(M2:M>=$Q$2,"PASS","FAIL")))
+    O | hdr=                                 | sample=                        
+    P | hdr=Parameter                        | sample=Pass >=                 
+    Q | hdr=Value                            | sample=0.9                     
+    R | hdr=                                 | sample=                        
+    S | hdr=Branch                           | sample=                        
+    T | hdr=Avg availability                 | sample=                        
+    U | hdr=Avg acceptance time              | sample=                        
+    V | hdr=Share of Cancellations           | sample=                        
+    W | hdr=                                 | sample=                        
+    X | hdr=Availability (5%)                | sample=FAIL                     | F[r2]==if(T2>=0.985, "PASS","FAIL")
+    Y | hdr=Acceptance (2,5%)                | sample=PASS                     | F[r2]==if(U2<=1,"PASS","FAIL")
+    Z | hdr=Cancellations (2,5%)             | sample=PASS                     | F[r2]==IF(V2<=0.001,"PASS","FAIL")
+   AA | hdr=PASS/FAIL                        | sample=PASS                     | F[r2]==IF(OR(X2="PASS",Y2="PASS"),"PASS","FAIL")
+   AB | hdr=% Obtained                       | sample=0.05                     | F[r2]==IF(X2="PASS",0.05,0)+IF(Y2="PASS",0.05,0)
+   AC | hdr=                                 | sample=                        
+
+==========================================================================================
+SHEET: Timecard exceptions individual   (formula tab: Formulas - Timecard exceptions )
+==========================================================================================
+    A | hdr=Name                             | sample=520107                   | F[r2]==UNIQUE(J2:J)
+    B | hdr=Employee number                  | sample=520107                   | F[r2]==A2
+    C | hdr=Disqualified on timecard excepti | sample=Lose 100%                | F[r2]==ARRAYFORMULA(IFERROR(VLOOKUP(A2:A,J:P,7,0),))
+    D | hdr=# Timecard Exceptions (Late in,  | sample=                        
+    E | hdr=                                 | sample=                         | F[r2]==IFERROR(VLOOKUP(B2,I:J,2,0),"")
+    F | hdr=                                 | sample=                        
+    G | hdr=                                 | sample=100%                     | F[r2]==ARRAYFORMULA(IF(C2:C="", "", IFERROR(REGEXEXTRACT(C2:C, "\d+%"),"0%")))
+    H | hdr=                                 | sample=                         | F[r2]==ARRAYFORMULA(IF(I2:I="", "", IF(I2:I<$M$2, "100%", "0%")))
+    I | hdr=                                 | sample=                        
+    J | hdr=EmployeeID                       | sample=520107.0                
+    K | hdr=WeightedPenalty                  | sample=72.0                    
+    L | hdr=Number of Exceptions             | sample=33.0                    
+    M | hdr=Weighting Rank                   | sample=1.0                     
+    N | hdr=Count Rank                       | sample=1.0                     
+    O | hdr=Average Rank                     | sample=1.0                     
+    P | hdr=Bonus                            | sample=Lose 100%               
+
+==========================================================================================
+SHEET: Timecard exception_edits stores   (formula tab: Formulas - Timecard exception_e)
+==========================================================================================
+    A | hdr=Region                           | sample=                        
+    B | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA('Qualifying Stores'!C2:C),1,1)
+    C | hdr=ExceptionsAndEditTotal           | sample=                        
+    D | hdr=Manager bonus impact             | sample=                        
+    E | hdr=Reason                           | sample=                        
+    F | hdr=                                 | sample=0                        | F[r2]==IFERROR(value(REGEXEXTRACT(D2, "\d+%")),0%)
+
+==========================================================================================
+SHEET: Drop Validation Impact   (formula tab: Formulas - Drop Validation Impa)
+==========================================================================================
+    A | hdr=Country                          | sample=SOUTH AFRICA             | F[r2]==ARRAYFORMULA(IFERROR(XLOOKUP(B2:B,'Store master'!A:A,'Store master'!C:C),""))
+    B | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA('Qualifying Stores'!C2:C),1,1)
+    C | hdr=Impact                           | sample=0%                       | F[r2]==ARRAYFORMULA(IF(B2:B="", "", IFERROR(VLOOKUP(B2:B,G:J,4,0),"0%")))
+    D | hdr=                                 | sample=                        
+    E | hdr=                                 | sample=                        
+    F | hdr=                                 | sample=                        
+    G | hdr=Branch                           | sample=BELAS                   
+    H | hdr=Recon Score                      | sample=0.1843864217            
+    I | hdr=Valid Drop Score                 | sample=0.6238807061            
+    J | hdr=Impact                           | sample=100%                     | F[r2]==ARRAYFORMULA(IF(I2:I="", "", IF(I2:I<$M$2, "100%", "0%")))
+    K | hdr=                                 | sample=                        
+    L | hdr=Parameters                       | sample=Pass <                  
+    M | hdr=Value                            | sample=0.745                   
+
+==========================================================================================
+SHEET: Blocked Drains Impact   (formula tab: Formulas - Blocked Drains Impac)
+==========================================================================================
+    A | hdr=Country                          | sample=SOUTH AFRICA             | F[r2]==ARRAYFORMULA(IFERROR(XLOOKUP(B2:B,'Store master'!A:A,'Store master'!C:C),""))
+    B | hdr=Store                            | sample=22 LONG STREET           | F[r2]==SORT(ARRAYFORMULA('Qualifying Stores'!C2:C),1,1)
+    C | hdr=Impact                           | sample=0                        | F[r2]==arrayformula(IFERROR(VLOOKUP(B2:B,G:H,2,0),VALUE("0%")))
+    D | hdr=                                 | sample=                        
+    E | hdr=                                 | sample=                        
+    F | hdr=                                 | sample=                        
+    G | hdr=Store                            | sample=ALBERTON MALL           
+    H | hdr=Impact                           | sample=1                        | F[r2]==ARRAYFORMULA(IF(G2:G="",,1))
+    I | hdr=                                 | sample=                        
+    J | hdr=Maintinance                      | sample=email Gideon to get the 
+    K | hdr=                                 | sample=                        
+    L | hdr=2026-06-10 00:00:00              | sample=Alberton Mall           
+    M | hdr=Store                            | sample=ALBERTON MALL            | F[r2]==FILTER('Store master'!A:A,'Store master'!A:A=L2)
+    N | hdr=                                 | sample=                         | F[r5]==FILTER(B:B,B:B=M5)
+
+==========================================================================================
+SHEET: VLook   (formula tab: Formulas - VLook)
+==========================================================================================
+    A | hdr=Name                             | sample=EMPANGENI               
+    B | hdr=Region                           | sample=KZN CENTRAL             
+    C | hdr=Country                          | sample=SOUTH AFRICA            
+    D | hdr=RM email address                 | sample=yreddy@hungrylion.co.za 
+    E | hdr=Store email address              | sample=49569@stores.hungrylion.
+    F | hdr=Store code 4 digit               | sample=4956                    
+    G | hdr=                                 | sample=                        
+    H | hdr=                                 | sample=                        
+    I | hdr=                                 | sample=                        
+    J | hdr=                                 | sample=                        
+    K | hdr=Branch                           | sample=GREAT NORTH             
+    L | hdr=oil_category                     | sample=EXTRA-LARGE             
+    M | hdr=oil_benchmark                    | sample=0.0065                   | F[r2]==VLOOKUP(L2,'Store Staff Criteria'!$A$17:$B$22,2,0)
+
+==========================================================================================
+SHEET: Store master   (formula tab: Formulas - Store master)
+==========================================================================================
+    A | hdr=Name                             | sample=EMPANGENI               
+    B | hdr=Region                           | sample=KZN CENTRAL             
+    C | hdr=Country                          | sample=SOUTH AFRICA            
+    D | hdr=Status                           | sample=Open                    
+    E | hdr=Trade date after opening/revamp  | sample=2023-02-15 00:00:00     
+    F | hdr=Operational Manager              | sample=Donovan Reddy           
+    G | hdr=Regional Manager                 | sample=Donovan Reddy           
+    H | hdr=RM telephone number              | sample=27813649169             
+    I | hdr=RM email address                 | sample=yreddy@hungrylion.co.za 
+    J | hdr=Store code                       | sample=49569                   
+    K | hdr=Store code 4 digit               | sample=4956                    
+    L | hdr=Current POS                      | sample=ZENIA                   
+    M | hdr=POS code (Gaap/Cosoft/Winrest)   | sample=EMPX0003                
+    N | hdr=Store telephone number (VOIP cod | sample=49569                   
+    O | hdr=Store number (regional dialing c | sample=27357722716             
+    P | hdr=Store email address              | sample=49569@stores.hungrylion.
+    Q | hdr=City / Town                      | sample=Empangeni               
+    R | hdr=Store Address                    | sample=Cnr Commercial Rd & Biye
+    S | hdr=Account code                     | sample=4956                    
+    T | hdr=Province                         | sample=KwaZulu-Natal           
+    U | hdr=Store Type (Newly Added)         | sample=IL                      
+    V | hdr=Micro Location                   | sample=Shopping Centre         
+    W | hdr=Macro Location                   | sample=                        
+    X | hdr=Country secondary                | sample=South Africa            
+    Y | hdr=Distribution partner             | sample=Digistics Cornubia (KZN)
+    Z | hdr=Volume type (based on chicken pi | sample=3                       
+   AA | hdr=Volume type (based on chicken pi | sample=MEDIUM-LARGE            
+   AB | hdr=Menu screen size                 | sample=55                      
+   AC | hdr=Menu screen type                 | sample=Digital                 
+   AD | hdr=GLA (Gross leasable area) m2     | sample=140                     
+   AE | hdr=Store original opening date (dat | sample=2022-02-15 00:00:00     
+   AF | hdr=Revamp date (if applicable)      | sample=                        
+   AG | hdr=Zambia store alternative categor | sample=                        
+   AH | hdr=Zambia old regions               | sample=KZN                     
+   AI | hdr=Zambia Supplier classification   | sample=                        
+   AJ | hdr=Digistics store naming conventio | sample=HL - Empangeni          
+   AK | hdr=Delivery/Non-Delivery Store      | sample=DELIVERY STORE          
+   AL | hdr=Delivery Partner                 | sample=Uber Eats, Mr D         
+   AM | hdr=Placeholder1                     | sample=                        
+   AN | hdr=Placeholder2                     | sample=                        
+   AO | hdr=Placeholder3                     | sample=                        
+   AP | hdr=Placeholder4                     | sample=                        
+   AQ | hdr=Placeholder5                     | sample=                        
+   AR | hdr=Placeholder6                     | sample=                        
+   AS | hdr=More comments on opening dates   | sample=                        
+   AT | hdr=Trading hours:                   | sample=                        
+   AU | hdr=Monday Open                      | sample=08:00:00                
+   AV | hdr=Monday Close                     | sample=18:00:00                
+   AW | hdr=Tuesday Open                     | sample=08:00:00                
+   AX | hdr=Tuesday Close                    | sample=18:00:00                
+   AY | hdr=Wednesday Open                   | sample=08:00:00                
+   AZ | hdr=Wednesday Close                  | sample=18:00:00                
+   BA | hdr=Thursday Open                    | sample=08:00:00                
+   BB | hdr=Thursday Close                   | sample=18:00:00                
+   BC | hdr=Friday Open                      | sample=08:00:00                
+   BD | hdr=Friday Close                     | sample=18:00:00                
+   BE | hdr=Saturday Open                    | sample=08:00:00                
+   BF | hdr=Saturday Close                   | sample=17:00:00                
+   BG | hdr=Sunday Open                      | sample=09:00:00                
+   BH | hdr=Sunday Close                     | sample=15:00:00                
+   BI | hdr=Location                         | sample=-28.7422546, 31.8880853 
+   BJ | hdr=Electricity Meter                | sample=                        
+   BK | hdr=Asset Pipeline                   | sample=EMPANGENI               
+   BL | hdr=Marketing - Delivery store to Ma | sample=EMPANGENI               
+   BM | hdr=Operations - Store trading hours | sample=EMPANGENI               
+   BN | hdr=Logistics - Store Distribution P | sample=EMPANGENI               
+   BO | hdr=IT                               | sample=EMPANGENI               
+   BP | hdr=Productivity                     | sample=EMPANGENI               
+   BQ | hdr=HLP015 Electricity Smart Meterin | sample=                        
+   BR | hdr=Last Updated                     | sample=2026-06-04 07:20:05 UTC 
+   BS | hdr=Alternative Power Supply         | sample=                        
+   BT | hdr=HLP073 Loadshedding Mitigation   | sample=                        
+   BU | hdr=OM email address                 | sample=yreddy@hungrylion.co.za 
+   BV | hdr=Cluster Manager                  | sample=                        
+   BW | hdr=CM Contact Number                | sample=                        
+   BX | hdr=CM Email Address                 | sample=                        
+   BY | hdr=HR Representative                | sample=Priya Nagasur           
+   BZ | hdr=HR Rep email                     | sample=pnagasur@hungrylion.co.z
+
+==========================================================================================
+SHEET: import   (formula tab: Formulas - import)
+==========================================================================================
+    A | hdr=                                 | sample=May 2026 Net Clocking Im
+    B | hdr=                                 | sample=Failed                  
+    C | hdr=                                 | sample=B:D                     
+    D | hdr=                                 | sample=https://docs.google.com/
+    E | hdr=                                 | sample=Failed!B:D               | F[r2]==CONCATENATE(import!B2,"!",import!C2)
+    F | hdr=                                 | sample=                        
+    G | hdr=                                 | sample=                        
+    H | hdr=                                 | sample=                        
+    I | hdr=                                 | sample=920294                  
+    J | hdr=                                 | sample=                        
+    K | hdr=                                 | sample=                        
+    L | hdr=                                 | sample=                        
+    M | hdr=                                 | sample=                        
+    N | hdr=                                 | sample=                        
+    O | hdr=                                 | sample=                        
+    P | hdr=                                 | sample=                        
+    Q | hdr=                                 | sample=                        
+    R | hdr=                                 | sample=                        
+    S | hdr=                                 | sample=                        
+    T | hdr=                                 | sample=                        
+    U | hdr=                                 | sample=                        
+    V | hdr=                                 | sample=                        
+    W | hdr=                                 | sample=                        
+    X | hdr=                                 | sample=                        
+    Y | hdr=                                 | sample=                        
+    Z | hdr=                                 | sample=                        
+   AA | hdr=                                 | sample=                        
+   AB | hdr=                                 | sample=                        
+
