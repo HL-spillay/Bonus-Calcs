@@ -1,4 +1,7 @@
--- Labour clocking — primary fact source (separate workbook if needed)
+-- Labour data — PRIMARY FACT TABLE (employee x store x position)
+-- Workbook: Espy 2026-06 Bonus Calc Sheet V2
+-- https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4
+-- Tab: Labour_Data
 
 CREATE OR REPLACE EXTERNAL TABLE `bidataops.Store_Bonus_Calculation.ext_labour_clocking`
 (
@@ -18,10 +21,10 @@ CREATE OR REPLACE EXTERNAL TABLE `bidataops.Store_Bonus_Calculation.ext_labour_c
 )
 OPTIONS (
   format = 'GOOGLE_SHEETS',
-  uris = ['SHEET_URL_LABOUR'],
-  sheet_range = 'Labour Clocking!A:M',
+  uris = ['https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4'],
+  sheet_range = 'Labour_Data!A:M',
   skip_leading_rows = 1
 );
 
--- View maps OfPrimaryJobDays column (%OfPrimaryJobDays in sheet — rename header in sheet
--- to OfPrimaryJobDays if BQ rejects % in column names, or use SELECT * and alias in v_stg_labour_clocking)
+-- Column A header in sheet is likely %OfPrimaryJobDays; BQ schema uses OfPrimaryJobDays (position 8).
+-- v_stg_labour_clocking maps OfPrimaryJobDays -> pct_of_primary_job_days.

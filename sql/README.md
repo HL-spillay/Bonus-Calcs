@@ -16,7 +16,7 @@ sql/
 
 1. Create dataset (once): `bidataops.Store_Bonus_Calculation`
 2. Run `00_ddl/ext_sheets/*.sql` — **external tables** over Google Sheets (set URLs)
-3. Run `01_views/*` — cast + unpivot external tables into cfg / staging views
+3. Run `01_views/v_stg_labour_clocking.sql` — typed view over `Labour_Data`
 4. Run `02_pipeline/run_bonus_calc.sql` with `@cycle_month`, `@exclude_countries`
 5. Connect result tabs via **Connected Sheets** → `rpt_*` tables
 

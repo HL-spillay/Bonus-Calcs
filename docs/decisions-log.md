@@ -6,7 +6,7 @@ Confirmed decisions. Add a dated entry when business rules change.
 
 | Decision | Choice |
 |----------|--------|
-| Compute engine | BigQuery (`bidataops.Store_Bonus_Calculation`) |
+| Compute engine | BigQuery (`bidataops.Store_Bonus_Calculation`, **location US**) |
 | UI | Google Sheets (config + raw + Connected result tabs) |
 | History / partitioning | None — single `cycle_month` per run; manual Sheet backup |
 | Corrections tab | Out of scope |
@@ -67,7 +67,20 @@ Document the final formula in this file once validated against 2–3 known emplo
 | Purpose | Queryable map of docs, SQL, Apps Script — **not** business data |
 | Cursor integration | `.cursor/rules/graphify.mdc` via `graphify cursor install --project` |
 | First build | Requires LLM API key (repo is doc-heavy); SQL-only updates use `graphify update .` |
+| First build | Requires LLM API key (repo is doc-heavy); SQL-only updates use `graphify update .` |
 | Docs | [graphify.md](graphify.md) |
+
+## 2026-07-05 — Google Sheets workbook
+
+| Field | Value |
+|-------|--------|
+| Workbook | **Espy 2026-06 Bonus Calc Sheet V2** |
+| URL | https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4 |
+| Labour tab | `Labour_Data` |
+| BigQuery dataset location | **US** |
+| External tables | `sql/00_ddl/ext_sheets/` |
+
+V1 workbook retired — all config, raw, and labour tabs live in V2.
 
 ## Open (still to confirm during build)
 

@@ -1,0 +1,42 @@
+# Google Sheets workbook — bonus calculation (single source)
+# Used by sql/00_ddl/ext_sheets/*.sql
+
+project_id: bidataops
+dataset_id: Store_Bonus_Calculation
+dataset_location: US
+
+workbook:
+  name: Espy 2026-06 Bonus Calc Sheet V2
+  file_id: 19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4
+  uri: https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4
+  edit_url: https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4/edit
+
+# Tab names must match the workbook exactly (case + spacing).
+tabs:
+  cycle: Cycle
+  exchange_info: Exchange info
+  managers_criteria: Managers criteria
+  store_master: Store master
+  parameters: Parameters
+  cluster_manager: Cluster Manager
+  employees_info: Employees info
+  labour_data: Labour_Data
+  sales: Sales
+  targets: Targets
+  extra_awol: Extra Awol
+  oil_shrink: Oil shrink
+  abs_unacc_variance: Abs Unacc Variance
+  labour_kpi: Labour
+  angola_results: Angola Results
+  virtual_assistant: Virtual Assistant Adoption
+  oil_quality: Oil Quality
+  banking_rsa: "RSA, ZIM, MAU & AngolaBanking"
+  banking_zambia: Zambia Banking
+  delivery_performance: Delivery Stores Performance
+  timecard_individual: Timecard exceptions individual
+  timecard_stores: Timecard exception_edits stores
+  drop_validation: Drop Validation Impact
+  blocked_drains: Blocked Drains Impact
+
+share_with:
+  - "705312163118-compute@developer.gserviceaccount.com"

@@ -51,9 +51,19 @@ For v1: use **external tables for all Sheet inputs**, with **views** that cast t
 
 ---
 
+## Workbook registered
+
+| Workbook | URL |
+|----------|-----|
+| **Espy 2026-06 Bonus Calc V2** | https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4 — all tabs including **`Labour_Data`** |
+
+Config: [config/workbook.yaml](../config/workbook.yaml) · DDL: [sql/00_ddl/ext_sheets/](../sql/00_ddl/ext_sheets/)
+
+---
+
 ## Prerequisites
 
-1. **Google Sheet URL** for the bonus workbook (and labour clocking if separate).
+1. **Google Sheet URL** — main workbook linked above; labour clocking when available.
 2. **Named ranges** on each tab (stable headers, no merged cells in header row).
 3. **BigQuery service account or user** with **Viewer** access on the Sheet:
    - Share the Sheet with the BigQuery connection identity, or

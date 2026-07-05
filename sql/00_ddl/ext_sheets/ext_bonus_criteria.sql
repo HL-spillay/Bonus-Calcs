@@ -1,7 +1,7 @@
--- Bonus Criteria wide config tab → external table
--- Replace SHEET_URL_BONUS and sheet_range to match your workbook.
+-- Managers criteria / Bonus Criteria config tab
+-- Workbook: Espy 2026-06 Bonus Calc Sheet V2
 
-CREATE OR REPLACE EXTERNAL TABLE `bidataops.Store_Bonus_Calculation.ext_bonus_criteria`
+CREATE OR REPLACE EXTERNAL TABLE `bidataops.Store_Bonus_Calculation.ext_managers_criteria`
 (
   Key STRING,
   Detail STRING,
@@ -35,7 +35,7 @@ CREATE OR REPLACE EXTERNAL TABLE `bidataops.Store_Bonus_Calculation.ext_bonus_cr
 )
 OPTIONS (
   format = 'GOOGLE_SHEETS',
-  uris = ['SHEET_URL_BONUS'],
-  sheet_range = 'Bonus Criteria!A:AB',
+  uris = ['https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4'],
+  sheet_range = 'Managers criteria!A:AB',
   skip_leading_rows = 1
 );

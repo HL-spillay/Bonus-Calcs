@@ -1,41 +1,40 @@
-# External tables over Google Sheets
+# External tables — Espy 2026-06 Bonus Calc Sheet V2
 
-Templates for `bidataops.Store_Bonus_Calculation`. **Replace placeholders before running.**
+**Single workbook** for config, raw data, labour, and (later) Connected result tabs.
 
-## Placeholders
+| Field | Value |
+|-------|--------|
+| Workbook | [Espy 2026-06 Bonus Calc Sheet V2](https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4/edit) |
+| File ID | `19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4` |
+| Dataset | `bidataops.Store_Bonus_Calculation` |
+| Location | **US** |
 
-| Placeholder | Replace with |
-|-------------|--------------|
-| `SHEET_URL_BONUS` | Bonus calc workbook URL, e.g. `https://docs.google.com/spreadsheets/d/FILE_ID/edit` |
-| `SHEET_URL_LABOUR` | Labour clocking workbook URL (if separate file) |
+Config: [config/workbook.yaml](../../config/workbook.yaml)
 
-## Files
+## Before running DDL
 
-| File | Sheet tab |
-|------|-----------|
-| `ext_bonus_criteria.sql` | Bonus Criteria |
-| `ext_labour_clocking.sql` | Labour Clocking |
-| `ext_store_master.sql` | Store Master |
-| `ext_cycle.sql` | Cycle |
-
-Additional `ext_*` files for Sales, KPI feeds — add as tabs are stabilised.
-
-## Run order
-
-```bash
-# After dataset exists:
-bq query --use_legacy_sql=false < ext_cycle.sql
-bq query --use_legacy_sql=false < ext_bonus_criteria.sql
-# ...
-```
-
-Or run all from BigQuery console.
+1. **Share the V2 Sheet** with BigQuery access identity — **Viewer** (`705312163118-compute@developer.gserviceaccount.com` in config).
+2. Confirm **tab names** match `sheet_range` in each SQL file.
+3. Run [00_create_dataset.sql](../00_create_dataset.sql) first (`location = US`).
 
 ## Verify
 
 ```sql
-SELECT COUNT(*) FROM `bidataops.Store_Bonus_Calculation.ext_bonus_criteria`;
-SELECT COUNT(*) FROM `bidataops.Store_Bonus_Calculation.ext_labour_clocking`;
+SELECT Key, Country FROM `bidataops.Store_Bonus_Calculation.ext_managers_criteria` LIMIT 5;
+SELECT person_personNumber, PrimaryStore FROM `bidataops.Store_Bonus_Calculation.ext_labour_clocking` LIMIT 5;
 ```
 
-See [docs/external-tables-sheets.md](../../docs/external-tables-sheets.md) for architecture and view layer.
+## Files
+
+| SQL file | External table | Sheet tab |
+|----------|----------------|-----------|
+| ext_cycle.sql | ext_cycle | Cycle |
+| ext_bonus_criteria.sql | ext_managers_criteria | Managers criteria |
+| ext_store_master.sql | ext_store_master | Store master |
+| ext_parameters.sql | ext_parameters | Parameters |
+| ext_cluster_manager.sql | ext_cluster_manager | Cluster Manager |
+| ext_exchange_info.sql | ext_exchange_info | Exchange info |
+| ext_employees_info.sql | ext_employees_info | Employees info |
+| ext_labour_clocking.sql | ext_labour_clocking | **Labour_Data** |
+
+See [docs/external-tables-sheets.md](../../docs/external-tables-sheets.md).

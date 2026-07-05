@@ -46,8 +46,8 @@ isProject: true
 
 | Topic | Choice |
 |-------|--------|
-| Compute | **BigQuery** — `bidataops.Store_Bonus_Calculation` |
-| UI | **Google Sheets** — config, raw data, Connected result tabs |
+| Compute | **BigQuery** — `bidataops.Store_Bonus_Calculation` (**US**) |
+| UI | **Google Sheets** — [Espy 2026-06 V2](https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4) (config, raw, labour, results) |
 | Glue | **External tables** (Sheets → BQ) + **Connected Sheets** (BQ → results) + optional Apps Script to **trigger** pipeline |
 | Scope | **Single `cycle_month` per run**; manual Sheet backup; no partitioning/history yet |
 | Corrections tab | **Out of scope** |
@@ -133,8 +133,10 @@ Wide **Bonus Criteria** sheet in Google Sheets → sync unpivots to BigQuery:
 
 ### Phase 1 — Foundation (next)
 - [ ] Create BigQuery dataset `bidataops.Store_Bonus_Calculation`
-- [ ] **External tables** `ext_*` over Google Sheet tabs ([docs/external-tables-sheets.md](../../docs/external-tables-sheets.md), [sql/00_ddl/ext_sheets/](../../sql/00_ddl/ext_sheets/))
-- [ ] Share Sheet with BigQuery access identity; set `SHEET_URL_*` in DDL
+- [ ] **Share workbook** with BigQuery access identity (Viewer)
+- [ ] Run **external tables** — [sql/00_ddl/ext_sheets/](../../sql/00_ddl/ext_sheets/) (workbook URL wired)
+- [ ] Confirm tab names match SQL (`Managers criteria`, `Store master`, …)
+- [ ] Add **labour clocking** Sheet URL to `ext_labour_clocking.sql` — **done** (V2 `Labour_Data`)
 - [ ] Views: unpivot `ext_bonus_criteria` → `cfg_*`; cast `ext_labour_clocking` → `v_stg_labour_clocking`
 - [ ] Native `rpt_*` tables for pipeline outputs
 

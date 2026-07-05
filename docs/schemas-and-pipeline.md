@@ -1,6 +1,6 @@
 # BigQuery Schemas & Calculation Pipeline
 
-All tables live in **`bidataops.Store_Bonus_Calculation`**. Every run uses **`cycle_month DATE`** (first day of month, e.g. `2026-05-01`). No partitioning yet — delete/reload rows for that month before each run.
+All tables live in **`bidataops.Store_Bonus_Calculation`** (dataset location **US**). Every run uses **`cycle_month DATE`** (first day of month, e.g. `2026-06-01`). No partitioning yet — delete/reload rows for that month before each run.
 
 ---
 

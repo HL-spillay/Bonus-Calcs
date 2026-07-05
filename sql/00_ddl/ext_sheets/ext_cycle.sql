@@ -1,4 +1,5 @@
--- Cycle control tab (cycle_month, country filters, date cutoffs)
+-- Cycle control (cycle_month, cutoffs, country filters)
+-- Workbook: https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4
 
 CREATE OR REPLACE EXTERNAL TABLE `bidataops.Store_Bonus_Calculation.ext_cycle`
 (
@@ -11,7 +12,7 @@ CREATE OR REPLACE EXTERNAL TABLE `bidataops.Store_Bonus_Calculation.ext_cycle`
 )
 OPTIONS (
   format = 'GOOGLE_SHEETS',
-  uris = ['SHEET_URL_BONUS'],
+  uris = ['https://docs.google.com/spreadsheets/d/19do6Op70r7OkvS0u9EsyXkicxI0WzzQW3gvKOgJJbi4'],
   sheet_range = 'Cycle!A:F',
   skip_leading_rows = 1
 );
