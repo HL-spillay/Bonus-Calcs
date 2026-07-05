@@ -1,8 +1,23 @@
+# Legacy audit exports (large)
 Formula extraction 2026-05 sales targets for communication_Audit.xlsx
 Formula extraction 2026-05 sales targets for communication_Formula.xlsx
-inputs/
+
+# Local workbook copies (back up manually; optional to track)
+*.xlsx
+
+# Python (removed from project; keep ignore if reintroduced)
+.venv/
 __pycache__/
 *.pyc
-.venv/
+.pytest_cache/
+
+# Outputs
 output/
-*.xlsx
+inputs/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+Espy 2026-05 Bonus Calc Sheet V1-01 - Managers criteria.csv
+Espy 2026-05 Bonus Calc Sheet V1-01 - Sheet125 (2).csv
+Espy 2026-05 Bonus Calc Sheet V1-01 - Sheet125.csv

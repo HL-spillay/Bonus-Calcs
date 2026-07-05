@@ -1,5 +1,7 @@
 # Bonus Model — Plain-English Logic Spec
 
+> **Legacy reference.** The active system design is documented in [README.md](README.md), [design.md](design.md), and [schemas-and-pipeline.md](schemas-and-pipeline.md). This file describes the *old Google Sheets formula workbook* for business-rule context only. Corrections tab logic is excluded from the new system.
+
 > Reverse-engineered from `Formula extraction 2026-05 sales targets for communication`
 > (Audit + Formula exports). This document describes **what the current workbook
 > actually does**, in plain English, so it can be rebuilt as a clean,
