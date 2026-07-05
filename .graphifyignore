@@ -1,0 +1,12 @@
+# Large local workbooks — not part of the maintained project graph
+*.xlsx
+
+# Generated graph output
+graphify-out/
+
+# IDE / tooling
+.cursor/
+.git/
+
+# Legacy audit exports (if present locally)
+Formula extraction*.xlsx

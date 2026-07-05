@@ -133,6 +133,7 @@ Document in your internal runbook (outside this repo if sensitive):
 
 - [design.md](design.md) — architecture
 - [schemas-and-pipeline.md](schemas-and-pipeline.md) — table DDL and step order
+- [graphify.md](graphify.md) — project knowledge graph for maintainers
 - [bonus-model-logic.md](bonus-model-logic.md) — legacy formula behaviour reference
 
 SQL DDL files will live under `sql/` as the pipeline is implemented.

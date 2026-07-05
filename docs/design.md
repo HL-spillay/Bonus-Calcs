@@ -161,7 +161,7 @@ flowchart LR
         results[Connected result tabs]
     end
 
-    subgraph bq [BigQuery]
+    subgraph bq [BigQuery bidataops.Store_Bonus_Calculation]
         stg[Staging tables]
         int[Intermediate views]
         rpt[Result tables]
@@ -172,9 +172,17 @@ flowchart LR
         sq[Scheduled Query pipeline]
     end
 
+    subgraph dev [Developer tooling]
+        graphify[Graphify graphify-out]
+        docs[docs/ design specs]
+    end
+
     raw --> sync --> stg
     cfg --> sync --> stg
     stg --> int --> rpt
     sq --> int
     rpt --> results
+    docs --> graphify
 ```
+
+**Graphify** (see [graphify.md](graphify.md)) indexes docs/SQL/Apps Script in this repo so maintainers and AI assistants can query project structure. It does not replace BigQuery for bonus calculation.

@@ -59,6 +59,16 @@ Document the final formula in this file once validated against 2–3 known emplo
 - KPI weights in **long** config table; missing row = KPI not applicable (NA), not FAIL.
 - Wide Bonus Criteria sheet is OK for editing; sync unpivots on load.
 
+## 2026-07-05 — Graphify (project knowledge graph)
+
+| Decision | Choice |
+|----------|--------|
+| Tool | [Graphify](https://github.com/safishamsi/graphify) (`graphifyy` on PyPI) |
+| Purpose | Queryable map of docs, SQL, Apps Script — **not** business data |
+| Cursor integration | `.cursor/rules/graphify.mdc` via `graphify cursor install --project` |
+| First build | Requires LLM API key (repo is doc-heavy); SQL-only updates use `graphify update .` |
+| Docs | [graphify.md](graphify.md) |
+
 ## Open (still to confirm during build)
 
 - [ ] Exact `work_share` formula combining `%OfPrimaryJobDays` and `ActualHours` for store bonus line split

@@ -12,6 +12,7 @@ Anyone taking over this project should read the docs in order:
 | [schemas-and-pipeline.md](schemas-and-pipeline.md) | BigQuery table schemas, config model, calculation order, output tables |
 | [sheets-integration.md](sheets-integration.md) | Which Sheets tabs map to which tables, sync pattern, run checklist |
 | [decisions-log.md](decisions-log.md) | Confirmed business/technical decisions (updated as you sign off) |
+| [graphify.md](graphify.md) | Project knowledge graph (Graphify) — setup, queries, handoff |
 | [bonus-model-logic.md](bonus-model-logic.md) | **Legacy reference only** — reverse-engineered rules from the old formula workbook. Use for business-rule context; the new system in `design.md` supersedes implementation details. |
 
 ## Repository layout
@@ -20,6 +21,9 @@ Anyone taking over this project should read the docs in order:
 Bonus-Calcs/
 ├── docs/                    # Design and handoff documentation (start here)
 ├── sql/                     # BigQuery DDL and pipeline SQL (to be added incrementally)
+├── graphify-out/            # Graphify knowledge graph (generated — see docs/graphify.md)
+├── .cursor/rules/graphify.mdc  # Cursor: query graph before blind file search
+├── AGENTS.md                # Short instructions for AI assistants
 ├── auditBonusWorkbook.gs    # Optional: audit tool for legacy Sheets workbooks
 ├── extractFormulas.gs       # Optional: formula extraction from legacy Sheets
 └── *.csv                    # Local exports / examples (not loaded automatically)
@@ -27,7 +31,7 @@ Bonus-Calcs/
 
 ## Current status
 
-- **Done:** Architecture and schema design documented; legacy Python scaffold removed.
+- **Done:** Architecture and schema design documented; legacy Python scaffold removed; Graphify knowledge graph; master plan at [.cursor/plans/bonus_calc_redesign.plan.md](../.cursor/plans/bonus_calc_redesign.plan.md).
 - **Next:** Create BigQuery dataset + tables, wire Sheets → BigQuery sync, implement pipeline SQL for non-Angola countries first.
 - **Out of scope (for now):** Multi-month history/partitioning, Corrections tab, automated archival (you back up the Sheet manually each cycle).
 
