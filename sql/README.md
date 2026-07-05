@@ -15,12 +15,10 @@ sql/
 ## Run order
 
 1. Create dataset (once): `bidataops.Store_Bonus_Calculation`
-2. Run all `00_ddl/*.sql`
-3. Load config + dimensions from Sheets (Apps Script)
-4. Load staging for `cycle_month`
-5. Run `02_pipeline/run_bonus_calc.sql` with parameters:
-   - `@cycle_month`
-   - `@exclude_countries` (optional)
+2. Run `00_ddl/ext_sheets/*.sql` — **external tables** over Google Sheets (set URLs)
+3. Run `01_views/*` — cast + unpivot external tables into cfg / staging views
+4. Run `02_pipeline/run_bonus_calc.sql` with `@cycle_month`, `@exclude_countries`
+5. Connect result tabs via **Connected Sheets** → `rpt_*` tables
 
 See [docs/schemas-and-pipeline.md](../docs/schemas-and-pipeline.md) for full schema and step definitions.
 

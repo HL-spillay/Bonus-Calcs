@@ -42,37 +42,40 @@ Use **Data → Connected Sheets** (or BigQuery connector) pointing at result tab
 
 ---
 
-## Sync pattern
+## Sync pattern (recommended)
 
 ```mermaid
 sequenceDiagram
     participant User
     participant Sheet as Google Sheets
-    participant Script as Apps Script
-    participant BQ as BigQuery
+    participant Ext as BigQuery ext_* tables
+    participant Pipe as Pipeline SQL
+    participant Rpt as rpt_* tables
+    participant Conn as Connected Sheets
 
-    User->>Sheet: Paste raw data, edit config
-    User->>Script: Run "Sync to BigQuery"
-    Script->>BQ: TRUNCATE stg_* / load from named ranges
-    Script->>BQ: Execute scheduled query "bonus_pipeline"
-    BQ->>BQ: Steps 1-10
-    User->>Sheet: Refresh Connected Sheets tabs
-    User->>Sheet: Download backup copy
+    User->>Sheet: Edit config / paste raw data
+    Note over Sheet,Ext: External tables read Sheet live
+    User->>Pipe: Run scheduled query or Apps Script trigger
+    Ext->>Pipe: Views cast + unpivot config
+    Pipe->>Rpt: Materialize results
+    User->>Conn: Refresh result tabs
 ```
 
-### Option A — Apps Script sync (recommended for v1)
+### Option A — External tables (recommended for inputs)
 
-- Named ranges per tab (e.g. `rng_labour_clocking`).
-- Script reads values, writes to BigQuery via Advanced Service or REST.
-- Converts types (dates, numbers) explicitly.
-- Menu: **Bonus Calc → Sync inputs → Run pipeline → Refresh results**.
+One **`ext_*` external table** per Sheet tab (`format = GOOGLE_SHEETS`). Pipeline reads **views** that cast types and unpivot wide config.
 
-### Option B — Connected Sheets as external tables
+- No Apps Script copy step for inputs
+- Sheet must be shared with BigQuery’s Drive access identity
+- See **[external-tables-sheets.md](external-tables-sheets.md)** and **`sql/00_ddl/ext_sheets/`**
 
-- Config/raw tabs linked as BigQuery external tables.
-- Less control over types; good for read-heavy config once stable.
+### Option B — Apps Script batch load (fallback)
 
-**Practical v1:** Apps Script load into **native** BigQuery tables for staging; Connected Sheets **only for results**.
+Load into native `stg_*` if external reads are too slow or schema changes often.
+
+### Results (outputs)
+
+**Connected Sheets only** — point result tabs at native `rpt_*` tables. Not external tables.
 
 ---
 

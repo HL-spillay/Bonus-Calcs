@@ -12,16 +12,19 @@ todos:
     content: Install Graphify, Cursor rule, build graphify-out/ knowledge graph
     status: completed
   - id: bq-dataset-ddl
-    content: Create bidataops.Store_Bonus_Calculation dataset + sql/00_ddl/ table definitions
+    content: Create bidataops.Store_Bonus_Calculation dataset + native DDL + external tables (ext_*) over Google Sheets
+    status: pending
+  - id: ext-sheets-views
+    content: Create views to cast/unpivot ext_* sheets into cfg_* and v_stg_* for pipeline
     status: pending
   - id: config-seed
-    content: Load Managers criteria CSV into cfg_policy_key, cfg_manager_kpi_weight, cfg_overrider_tier, cfg_position_bonus_potential
+    content: Wire Bonus Criteria external table + unpivot views (CSV seed only for local dev fallback)
     status: pending
   - id: pipeline-non-angola
-    content: Implement pipeline SQL steps 1–10 for non-Angola countries (eligibility → KPIs → store/manager bonus → labour lines → outputs)
+    content: Implement pipeline SQL steps 1–10 for non-Angola countries (reads v_stg_* / cfg views)
     status: pending
   - id: sheets-sync
-    content: Light Apps Script sync (Sheet tabs → BigQuery staging) + Connected Sheets for four result tabs
+    content: Connected Sheets for four result tabs + optional Apps Script to trigger pipeline (no tab copy if using external tables)
     status: pending
   - id: validation
     content: Validate 2–3 known employees/stores against legacy sheet outputs
@@ -45,7 +48,7 @@ isProject: true
 |-------|--------|
 | Compute | **BigQuery** — `bidataops.Store_Bonus_Calculation` |
 | UI | **Google Sheets** — config, raw data, Connected result tabs |
-| Glue | Light **Apps Script** + Scheduled Queries (no bonus formulas in Sheets) |
+| Glue | **External tables** (Sheets → BQ) + **Connected Sheets** (BQ → results) + optional Apps Script to **trigger** pipeline |
 | Scope | **Single `cycle_month` per run**; manual Sheet backup; no partitioning/history yet |
 | Corrections tab | **Out of scope** |
 | Overrider | From **`cfg_overrider_tier`** only (sales/target brackets) |
@@ -129,18 +132,20 @@ Wide **Bonus Criteria** sheet in Google Sheets → sync unpivots to BigQuery:
 ## Implementation phases
 
 ### Phase 1 — Foundation (next)
-- [ ] Create BigQuery dataset
-- [ ] `sql/00_ddl/` — ctl, cfg, dim, stg, rpt tables
-- [ ] Seed config from [Espy 2026-05 Bonus Calc Sheet V1-01 - Managers criteria.csv](../../Espy%202026-05%20Bonus%20Calc%20Sheet%20V1-01%20-%20Managers%20criteria.csv)
+- [ ] Create BigQuery dataset `bidataops.Store_Bonus_Calculation`
+- [ ] **External tables** `ext_*` over Google Sheet tabs ([docs/external-tables-sheets.md](../../docs/external-tables-sheets.md), [sql/00_ddl/ext_sheets/](../../sql/00_ddl/ext_sheets/))
+- [ ] Share Sheet with BigQuery access identity; set `SHEET_URL_*` in DDL
+- [ ] Views: unpivot `ext_bonus_criteria` → `cfg_*`; cast `ext_labour_clocking` → `v_stg_labour_clocking`
+- [ ] Native `rpt_*` tables for pipeline outputs
 
 ### Phase 2 — Pipeline (non-Angola)
 - [ ] `sql/01_views/` — steps 1–10
 - [ ] `sql/02_pipeline/run_bonus_calc.sql` with `@cycle_month`, `@exclude_countries`
 
 ### Phase 3 — Sheets integration
-- [ ] Apps Script: sync staging tabs
-- [ ] Connected Sheets → four result tabs
-- [ ] Monthly checklist ([docs/sheets-integration.md](../../docs/sheets-integration.md))
+- [ ] Connected Sheets → four result tabs (`rpt_*`)
+- [ ] Optional Apps Script: **Run pipeline** button (scheduled query), refresh Connected Sheets
+- [ ] ~~Apps Script copy every tab~~ — **not needed** if external tables cover inputs
 
 ### Phase 4 — Validation & Angola
 - [ ] 2–3 regression examples

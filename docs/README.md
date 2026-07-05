@@ -10,7 +10,8 @@ Anyone taking over this project should read the docs in order:
 |-----|---------|
 | [design.md](design.md) | Architecture, platform choice, monthly workflow, Angola split, design decisions |
 | [schemas-and-pipeline.md](schemas-and-pipeline.md) | BigQuery table schemas, config model, calculation order, output tables |
-| [sheets-integration.md](sheets-integration.md) | Which Sheets tabs map to which tables, sync pattern, run checklist |
+| [external-tables-sheets.md](external-tables-sheets.md) | Google Sheets → BigQuery external tables + views |
+| [sheets-integration.md](sheets-integration.md) | Which Sheets tabs map to which tables, run checklist |
 | [decisions-log.md](decisions-log.md) | Confirmed business/technical decisions (updated as you sign off) |
 | [graphify.md](graphify.md) | Project knowledge graph (Graphify) — setup, queries, handoff |
 | [bonus-model-logic.md](bonus-model-logic.md) | **Legacy reference only** — reverse-engineered rules from the old formula workbook. Use for business-rule context; the new system in `design.md` supersedes implementation details. |
