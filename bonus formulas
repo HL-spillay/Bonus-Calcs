@@ -1,0 +1,113 @@
+=IF(
+    AND(
+        A2="SOUTH AFRICA",
+        ISNUMBER(MATCH(C2, 'Delivery Stores Performance'!A:A, 0)),
+        U2>=S2
+        ),
+    "PASS. " & TEXT('Managers criteria'!$D$3, "0%") & " payout",
+    IF(
+        AND(
+            A2="SOUTH AFRICA",
+            ISNA(MATCH(C2, 'Delivery Stores Performance'!A:A, 0)),
+            U2>=S2
+            ),
+        "PASS. " & TEXT('Managers criteria'!$D$14, "0%") & " payout",
+        IF(
+            AND(
+                A2="ZAMBIA",
+                ISNUMBER(MATCH(C2, 'Delivery Stores Performance'!S:S, 0)),
+                U2>=S2
+                ),
+            "PASS. " & TEXT('Managers criteria'!$D$44, "0%") & " payout",
+            IF(
+                AND(
+                    A2="ZAMBIA",
+                    ISNA(MATCH(C2, 'Delivery Stores Performance'!S:S, 0)),
+                    U2>=S2
+                    ),
+                "PASS. " & TEXT('Managers criteria'!$D$34, "0%") & " payout",
+                IF(
+                    AND(
+                        A2="NAMIBIA",
+                        U2>=S2
+                        ),
+                    "PASS. " & TEXT('Managers criteria'!$D$24, "0%") & " payout",
+                    IF(
+                        AND(
+                            A2="ESWATINI",
+                            U2>=S2
+                            ),
+                        "PASS. " & TEXT('Managers criteria'!$D$55, "0%") & " payout",
+                        IF(
+                            AND(
+                                A2="MAURITIUS",
+                                U2>=S2
+                                ),
+                            "PASS. " & TEXT('Managers criteria'!$D$77, "0%") & " payout",
+                            IF(
+                                AND(
+                                    A2="ZIMBABWE",
+                                    U2>=S2
+                                    ),
+                                "PASS. " & TEXT('Managers criteria'!$D$87, "0%") & " payout",
+                                IF(
+                                    AND(
+                                        OR(
+                                            ISNUMBER(SEARCH("DEBONAIRS", B2)),
+                                            ISNUMBER(SEARCH("VIDA", B2))
+                                            ),
+                                        U2>=S2
+                                        ),
+                                    "PASS. " & TEXT('Managers criteria'!$D$71, "0%") & " payout",
+                                    IF(
+                                        AND(
+                                            ISNUMBER(SEARCH("HUNGRY LION", B2)),
+                                            U2>=S2
+                                            ),
+                                        "PASS. " & TEXT('Managers criteria'!$D$64, "0%") & " payout",
+"FAIL. Did not reach sales target"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+
+=IF(
+    OR(J2="", A2="MAURITIUS"),
+    "Not applicable",
+    IF(
+        AND(J2="PASS", ISNUMBER(SEARCH("HUNGRY LION", B2))),
+        "PASS. " & TEXT('Managers criteria'!$D$65, "0%") & " payout",
+        IF(
+            AND(J2="PASS", A2="SOUTH AFRICA"),
+            "PASS. " & TEXT('Managers criteria'!$D$4, "0%") & " payout",
+            IF(
+                AND(J2="PASS", A2="ZAMBIA"),
+                "PASS. " & TEXT('Managers criteria'!$D$35, "0%") & " payout",
+                IF(
+                    AND(J2="PASS", A2="NAMIBIA"),
+                    "PASS. " & TEXT('Managers criteria'!$D$25, "0%") & " payout",
+                    IF(
+                        AND(J2="PASS", A2="ESWATINI"),
+                        "PASS. " & TEXT('Managers criteria'!$D$56, "0%") & " payout",
+                        IF(
+                            AND(J2="PASS", A2="ZIMBABWE"),
+                            "PASS. " & TEXT('Managers criteria'!$D$88, "0%") & " payout",
+                            IF(
+                                J2="FAIL",
+                                "Oil shrink Failed",
+                                ""
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
