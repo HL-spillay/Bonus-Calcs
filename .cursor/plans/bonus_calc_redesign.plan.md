@@ -148,6 +148,7 @@ Wide **Bonus Criteria** sheet in Google Sheets → sync unpivots to BigQuery:
 - [ ] Connected Sheets → four result tabs (`rpt_*`)
 - [ ] Optional Apps Script: **Run pipeline** button (scheduled query), refresh Connected Sheets
 - [ ] ~~Apps Script copy every tab~~ — **not needed** if external tables cover inputs
+- [ ] **Dashboard feeds:** build `Dash_Store` + `Dash_Manager` store-level tabs (2-pot model) and repoint Looker letters — spec: [docs/dashboards.md](../../docs/dashboards.md)
 
 ### Phase 4 — Validation & Angola
 - [ ] 2–3 regression examples
@@ -182,6 +183,7 @@ Wide **Bonus Criteria** sheet in Google Sheets → sync unpivots to BigQuery:
 | [docs/design.md](../../docs/design.md) | Architecture |
 | [docs/schemas-and-pipeline.md](../../docs/schemas-and-pipeline.md) | Table schemas + step detail |
 | [docs/sheets-integration.md](../../docs/sheets-integration.md) | Sheet ↔ BQ mapping |
+| [docs/dashboards.md](../../docs/dashboards.md) | Store/Manager Bonus Letter dashboard feeds (2-pot) |
 | [docs/decisions-log.md](../../docs/decisions-log.md) | Confirmed decisions |
 | [docs/graphify.md](../../docs/graphify.md) | Knowledge graph usage |
 | [graphify-out/GRAPH_REPORT.md](../../graphify-out/GRAPH_REPORT.md) | Auto-generated architecture summary |

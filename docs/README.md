@@ -14,6 +14,7 @@ Anyone taking over this project should read the docs in order:
 | [sheets-integration.md](sheets-integration.md) | Which Sheets tabs map to which tables, run checklist |
 | [decisions-log.md](decisions-log.md) | Confirmed business/technical decisions (updated as you sign off) |
 | [graphify.md](graphify.md) | Project knowledge graph (Graphify) — setup, queries, handoff |
+| [dashboards.md](dashboards.md) | Store & Manager Bonus Letter dashboard feeds (2-pot model) — Looker/Sheets build spec |
 | [bonus-model-logic.md](bonus-model-logic.md) | **Legacy reference only** — reverse-engineered rules from the old formula workbook. Use for business-rule context; the new system in `design.md` supersedes implementation details. |
 
 ## Repository layout
